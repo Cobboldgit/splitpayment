@@ -11,7 +11,6 @@ const GroupDetailsScreen = ({ route }) => {
   const item = route.params;
   const { goBack, navigate } = useNavigation();
 
-
   const handleTransactionPressed = () => {
     navigate("TransactionDetails");
   };

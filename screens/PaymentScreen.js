@@ -20,6 +20,7 @@ import { EvilIcons } from "@expo/vector-icons";
 import CheckBox from "../components/CheckBox";
 
 import BlurViewNext from "../BlurBoxNew";
+import { useSelector } from "react-redux";
 
 const PaymentScreen = ({ route }) => {
   const [focused, setFocused] = useState("no");
@@ -33,17 +34,25 @@ const PaymentScreen = ({ route }) => {
   const [a, setA] = useState(false);
   const [accountNumber, setAccountNumber] = useState("")
   const item = route.params;
-console.log(item);
+  const userData = useSelector((state) => state.userReducers.userData)
+
+  // console.log("===============>", userData);
 
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
   const proceedToPay = () => {
-    setModalVisible(!modalVisible);
+    if (accountNumber) {
+      setModalVisible(!modalVisible);
+    } else {
+      alert("Enter sender number")
+    }
   };
 
   useEffect(() => {
     if (isEnabled) {
-      setAccountNumber()
+      setAccountNumber(userData[0]?.phoneNumber)
+    } else {
+      setAccountNumber("")
     }
   },[isEnabled])
  
