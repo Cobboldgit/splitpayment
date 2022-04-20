@@ -9,19 +9,19 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { appColor } from "../constants";
 
-const ContactList = ({ onScrollBegin, handleSelectedItem }) => {
+const ContactList = ({ handleSelectedItem }) => {
   const contacts = useSelector((state) => state.contactsReducer.contacts);
 
   return (
     <View style={{ flex: 1 }}>
       <FlatList
         showsVerticalScrollIndicator={false}
-        onScrollBeginDrag={onScrollBegin}
         data={contacts}
         keyExtractor={(item, index) => `${item.id}-${index}`}
         renderItem={({ item }) => (
           <ContactCard onPress={handleSelectedItem} item={item} />
         )}
+        style={{paddingTop: 20}}
       />
     </View>
   );
@@ -30,45 +30,52 @@ const ContactList = ({ onScrollBegin, handleSelectedItem }) => {
 export default ContactList;
 
 const ContactCard = ({ item, onPress }) => {
+  // console.log("card ===========> <============", item);
   return (
     <TouchableOpacity
       onPress={() => {
-        onPress({
-          name: item?.name,
-          phoneNumber: item?.phoneNumbers[0].number,
-        });
+        if (item?.phoneNumbers) {
+          onPress({
+            name: item?.name,
+            phoneNumber: item?.phoneNumbers[0]?.number,
+          });
+        }else{
+          alert("no phone number")
+        }
       }}
       style={{
-        height: 60,
+        // height: 60,
         flexDirection: "row",
         alignItems: "center",
         marginHorizontal: 20,
-        borderColor: appColor.lightGray,
-        borderTopWidth: StyleSheet.hairlineWidth,
+        borderColor: appColor.gray,
+        borderBottomWidth: StyleSheet.hairlineWidth,
         // backgroundColor: appColor.white
+        
+        paddingVertical: 10
       }}
     >
       <View>
         <View
           style={{
-            height: 50,
-            width: 50,
-            borderRadius: 25,
-            backgroundColor: appColor.purple,
+            height: 60,
+            width: 60,
+            borderRadius: 30,
+            backgroundColor: appColor.lightPink,
             justifyContent: "center",
             alignItems: "center",
-            marginRight: 20,
+            marginRight: 10,
           }}
         >
-          <Text style={{ fontSize: 24, color: appColor.white }}>
+          <Text style={{ fontSize: 16, color: appColor.white }}>
             {item?.name[0]}
           </Text>
         </View>
       </View>
       <View>
-        <Text style={{ fontSize: 16 }}>{item?.name}</Text>
-        <Text style={{ color: appColor.gray }}>
-          {item?.phoneNumbers[0].number}
+        <Text style={{ fontSize: 14 }}>{item?.name}</Text>
+        <Text style={{ color: appColor.gray, fontSize: 14 }}>
+          {item?.phoneNumbers ? item?.phoneNumbers[0]?.number : "no number"}
         </Text>
       </View>
     </TouchableOpacity>

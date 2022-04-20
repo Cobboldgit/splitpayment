@@ -53,17 +53,18 @@ const AddedParticipant = () => {
             // borderBottomWidth: StyleSheet.hairlineWidth,
             paddingVertical: 10,
             paddingHorizontal: 10,
-            borderRadius: 10,
-            borderWidth: 1,
-            borderColor: appColor.purple,
+            borderRadius: 5,
+            borderWidth: StyleSheet.hairlineWidth,
+            borderColor: appColor.black,
             marginVertical: 10,
             flexDirection: "row",
             justifyContent: "space-between",
+            borderBottomWidth: 1
           }}
         >
           <View>
             <View style={{ flexDirection: "row" }}>
-              <Text style={{ fontSize: 20, color: appColor.purple }}>
+              <Text style={{ fontSize: 16, color: appColor.lightPink }}>
                 {item?.nickName}
               </Text>
             </View>
@@ -77,7 +78,7 @@ const AddedParticipant = () => {
             }}
           >
             <TouchableOpacity style={{marginRight: 10}} onPress={() => handleEdit()}>
-              <MaterialIcons name="edit" color={appColor.purple} size={20} />
+              <MaterialIcons name="edit" color={appColor.lightPink} size={20} />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => handleDelete(item?.phone)}>
               <MaterialIcons name="delete" color={appColor.red} size={20} />

@@ -60,7 +60,7 @@ export const createUserWithEmail = ({ email, password, nickName, phone }) => {
 // Login in with email with password =======================================
 export const loginUser = (email, password) => {
   return (dispatch, useState, { getFirebase, getFirestore }) => {
-    const auth = getFirebase().auth;
+    const auth = getFirebase().auth();
     auth
       .signInWithEmailAndPassword(email, password)
       .then(() => {})

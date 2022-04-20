@@ -195,7 +195,7 @@ const GroupSettingsScreen = ({ route }) => {
         </TouchableWithoutFeedback>
       </Modal>
       <LinearGradient
-        colors={[appColor.purple, appColor.lightBlue]}
+        colors={[appColor.lightPink, appColor.lightBlue]}
         start={{ x: 0.6, y: 0.3 }}
         style={{ height: 50, justifyContent: "center" }}
       >
@@ -260,7 +260,7 @@ const GroupSettingsScreen = ({ route }) => {
             }}
             style={{
               borderColor:
-                focused || groupName ? appColor.purple : appColor.gray,
+                focused || groupName ? appColor.black : appColor.gray,
               borderWidth: StyleSheet.hairlineWidth,
               borderRadius: 5,
               height: 50,
@@ -284,7 +284,7 @@ const GroupSettingsScreen = ({ route }) => {
           <View
             style={{
               paddingBottom: 15,
-              borderColor: appColor.purple,
+              borderColor: appColor.lightPink,
               borderBottomWidth: StyleSheet.hairlineWidth,
             }}
           >
@@ -295,7 +295,7 @@ const GroupSettingsScreen = ({ route }) => {
               {icons.add}
               <Text
                 style={{
-                  color: appColor.purple,
+                  color: appColor.lightPink,
                   fontSize: 16,
                   marginLeft: 10,
                 }}
@@ -374,7 +374,7 @@ const GroupSettingsScreen = ({ route }) => {
                   style={{
                     justifyContent: "center",
                     alignItems: "center",
-                    backgroundColor: appColor.purple,
+                    backgroundColor: appColor.lightPink,
                     height: 50,
                     borderRadius: 5,
                   }}
@@ -406,7 +406,7 @@ const GroupSettingsScreen = ({ route }) => {
         <TouchableOpacity
           onPress={() => alert("Transaction Deleted")}
           style={{
-            backgroundColor: appColor.purple,
+            backgroundColor: appColor.lightPink,
             borderRadius: 5,
             height: 40,
             justifyContent: "center",

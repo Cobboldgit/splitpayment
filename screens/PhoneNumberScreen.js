@@ -4,9 +4,11 @@ import {
   ScrollView,
   TextInput,
   TouchableOpacity,
+  ImageBackground,
+  Dimensions,
 } from "react-native";
 import React, { useState } from "react";
-import { appColor } from "../constants";
+import { appColor, images } from "../constants";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -25,7 +27,15 @@ const PhoneNumberScreen = () => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: appColor.white }}>
+    <ImageBackground
+      source={images.gradientBack}
+      style={{
+        flex: 1,
+        backgroundColor: appColor.white,
+        height: Dimensions.get("window").height,
+        width: Dimensions.get("window").width,
+      }}
+    >
       <View
         style={{ height: 50, justifyContent: "center", paddingHorizontal: 16 }}
       >
@@ -40,66 +50,73 @@ const PhoneNumberScreen = () => {
         </View>
       </View>
       <ScrollView style={{ marginHorizontal: 20 }}>
-        <View style={{ height: 80, justifyContent: "center" }}>
-          <Text
-            style={{ fontSize: 24, fontWeight: "bold", color: appColor.black }}
-          >
-            Create account
-          </Text>
-          <LinearGradient
-            colors={[appColor.lightBlue, appColor.purple]}
-            start={{ x: 1, y: 0.3 }}
-            style={{ height: 3, width: 140 }}
-          />
-        </View>
-        <View style={{ height: 80, justifyContent: "space-between" }}>
-          <Text style={{ color: appColor.black, fontSize: 16 }}>
-            Phone number
-          </Text>
-          <TextInput
-            value={phone}
-            onChangeText={(value) => setPhone(value)}
-            onFocus={(e) => {
-              setFocused(true);
-            }}
-            onBlur={() => {
-              setFocused(false);
-            }}
-            keyboardType="number-pad"
-            placeholder="Enter your phone number"
-            style={{
-              borderColor: focused ? appColor.purple : appColor.gray,
-              borderWidth: 1,
-              borderBottomWidth: 2,
-              borderRadius: 5,
-              height: 50,
-              paddingHorizontal: 20,
-            }}
-          />
-        </View>
         <View
           style={{
-            height: 100,
-            alignItems: "center",
-            justifyContent: "center",
+            backgroundColor: appColor.white,
+            borderRadius: 20,
+            paddingHorizontal: 30,
           }}
         >
-          <TouchableOpacity
-            onPress={handleContinue}
+          <View style={{ height: 80, justifyContent: "center" }}>
+            <Text
+              style={{
+                fontSize: 24,
+                fontWeight: "bold",
+                color: appColor.black,
+              }}
+            >
+              Create account
+            </Text>
+          </View>
+          <View style={{ height: 110, justifyContent: "space-between" }}>
+            <Text style={{ color: appColor.black, fontSize: 16 }}>
+              Phone number
+            </Text>
+            <TextInput
+              value={phone}
+              onChangeText={(value) => setPhone(value)}
+              onFocus={(e) => {
+                setFocused(true);
+              }}
+              onBlur={() => {
+                setFocused(false);
+              }}
+              keyboardType="number-pad"
+              placeholder="Enter your phone number"
+              style={{
+                borderColor: focused ? appColor.black : appColor.gray,
+                borderWidth: 1,
+                borderBottomWidth: 2,
+                borderRadius: 5,
+                height: 70,
+                paddingHorizontal: 20,
+              }}
+            />
+          </View>
+          <View
             style={{
-              backgroundColor: appColor.purple,
-              justifyContent: "center",
+              height: 100,
               alignItems: "center",
-              height: 50,
-              width: 200,
-              borderRadius: 25,
+              justifyContent: "center",
             }}
           >
-            <Text style={{ color: appColor.white }}>Continue</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleContinue}
+              style={{
+                backgroundColor: appColor.black,
+                justifyContent: "center",
+                alignItems: "center",
+                height: 50,
+                width: 200,
+                borderRadius: 25,
+              }}
+            >
+              <Text style={{ color: appColor.white }}>Continue</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
-    </View>
+    </ImageBackground>
   );
 };
 

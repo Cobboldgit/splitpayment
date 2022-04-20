@@ -18,7 +18,7 @@ import { appColor, icons } from "../constants";
 import { useDispatch, useSelector } from "react-redux";
 import { getContacts } from "../store/actions/contactsAction";
 import AddedParticipant from "../components/AddedParticipant";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, EvilIcons } from "@expo/vector-icons";
 import {
   addParticipant,
   clearAddedParticipant,
@@ -65,8 +65,6 @@ const AddGroupScreen = () => {
     }
   }, [addPart]);
 
- 
-
   //change modal height
   const handleModalHeight = () => {
     if (modalVisible) {
@@ -84,10 +82,10 @@ const AddGroupScreen = () => {
   const handleSelectedItem = (item) => {
     setSelectedItem(item);
     setModalVisible(false);
-    setNickName(item?.name)
-    setPhone(item?.phoneNumber)
+    setNickName(item?.name);
+    setPhone(item?.phoneNumber);
   };
-  
+
   // add participant
   const handleSubmitAddPart = () => {
     if ((phone && nickName) || selectedItem) {
@@ -149,60 +147,77 @@ const AddGroupScreen = () => {
           style={{ flex: 1 }}
         >
           <View style={{ flex: 1, justifyContent: "flex-end" }}>
-            <Animated.View
+            <View
               style={{
-                height: modalHeight,
                 backgroundColor: appColor.white,
-                borderTopRightRadius: 20,
-                borderTopLeftRadius: 20,
-                overflow: "hidden",
-                shadowColor: appColor.black,
-                shadowOpacity: 0.35,
-                shadowOffset: {
-                  height: -4,
-                  width: 0,
-                },
-                shadowRadius: 5,
-                elevation: 10,
+                flex: 1,
               }}
             >
               <View
                 style={{
                   justifyContent: "center",
-                  alignItems: "center",
-                  height: 40,
+                  // alignItems: "center",,
+                  paddingHorizontal: 20,
+
+                  height: 100,
                 }}
               >
                 <TouchableOpacity
-                  onPress={() => {
-                    setModalVisible(!modalVisible);
-                    modalHeight.setValue(Dimensions.get("screen").height / 2);
-                  }}
+                  onPress={() => setModalVisible(!modalVisible)}
                 >
-                  <View style={{ height: "100%", justifyContent: "center" }}>
-                    <View
-                      style={{
-                        height: 4,
-                        width: 50,
-                        backgroundColor: appColor.gray,
-                        borderRadius: 3,
-                      }}
-                    />
-                  </View>
+                  <MaterialIcons
+                    name="arrow-back-ios"
+                    size={24}
+                    color={appColor.darkgray}
+                  />
                 </TouchableOpacity>
               </View>
-              <ContactList
-                handleSelectedItem={handleSelectedItem}
-                onScrollBegin={() => handleModalHeight()}
-              />
-            </Animated.View>
+              <View style={{ paddingHorizontal: 20, flexDirection: "row" }}>
+                <View
+                  style={{
+                    height: 50,
+                    backgroundColor: appColor.white,
+                    borderColor: appColor.gray,
+                    borderLeftWidth: StyleSheet.hairlineWidth,
+                    borderTopLeftRadius: 25,
+                    borderBottomLeftRadius: 25,
+                    borderTopWidth: StyleSheet.hairlineWidth,
+                    borderBottomWidth: StyleSheet.hairlineWidth,
+                    width: "15%",
+                    justifyContent: "center",
+                    alignItems: "center"
+                  }}
+                >
+                  <MaterialIcons
+                    name="search"
+                    size={24}
+                    color={appColor.darkgray}
+                  />
+                </View>
+                <TextInput
+                placeholder="Search contact"
+                  style={{
+                    height: 50,
+                    backgroundColor: appColor.white,
+                    borderTopRightRadius: 25,
+                    borderBottomRightRadius: 25,
+                    borderTopWidth: StyleSheet.hairlineWidth,
+                    borderBottomWidth: StyleSheet.hairlineWidth,
+                    borderRightWidth: StyleSheet.hairlineWidth,
+                    borderColor: appColor.gray,
+                    width: "85%"
+                  }}
+                />
+              </View>
+              <ContactList handleSelectedItem={handleSelectedItem} />
+            </View>
           </View>
         </TouchableWithoutFeedback>
       </Modal>
       {/* header  */}
       <LinearGradient
-        colors={[appColor.purple, appColor.lightBlue]}
-        start={{ x: 0.6, y: 0.3 }}
+        colors={[appColor.lightPink, appColor.lightBlue]}
+        end={{ x: 0.7, y: 1.0 }}
         style={{ height: 50, justifyContent: "center" }}
       >
         <View
@@ -228,7 +243,7 @@ const AddGroupScreen = () => {
           </View>
           <View style={{ flex: 1, alignItems: "flex-end" }}>
             <TouchableOpacity onPress={handleCreateGroup}>
-              <MaterialIcons name="done" size={20} color={appColor.white}/>
+              <MaterialIcons name="done" size={20} color={appColor.white} />
             </TouchableOpacity>
           </View>
         </View>
@@ -272,7 +287,7 @@ const AddGroupScreen = () => {
                 }}
                 style={{
                   borderColor:
-                    focused || groupName ? appColor.purple : appColor.gray,
+                    focused || groupName ? appColor.lightPink : appColor.gray,
                   borderWidth: StyleSheet.hairlineWidth,
                   borderRadius: 5,
                   height: 50,
@@ -307,7 +322,7 @@ const AddGroupScreen = () => {
               <View
                 style={{
                   paddingBottom: 15,
-                  borderColor: appColor.purple,
+                  borderColor: appColor.lightPink,
                   borderBottomWidth: StyleSheet.hairlineWidth,
                 }}
               >
@@ -318,7 +333,7 @@ const AddGroupScreen = () => {
                   {icons.add}
                   <Text
                     style={{
-                      color: appColor.purple,
+                      color: appColor.lightPink,
                       fontSize: 16,
                       marginLeft: 10,
                     }}
@@ -335,9 +350,7 @@ const AddGroupScreen = () => {
                   <View style={{ marginVertical: 5 }}>
                     <TextInput
                       value={nickName}
-                      onChangeText={(value) =>
-                        setNickName(value)
-                      }
+                      onChangeText={(value) => setNickName(value)}
                       returnKeyType="done"
                       returnKeyLabel="done"
                       placeholder="Type participant's nickname"
@@ -362,9 +375,7 @@ const AddGroupScreen = () => {
                   >
                     <TextInput
                       value={phone}
-                      onChangeText={(value) =>
-                        setPhone(value)
-                      }
+                      onChangeText={(value) => setPhone(value)}
                       returnKeyType="done"
                       returnKeyLabel="done"
                       placeholder="Type participant's phone"
@@ -403,7 +414,7 @@ const AddGroupScreen = () => {
                       style={{
                         justifyContent: "center",
                         alignItems: "center",
-                        backgroundColor: appColor.purple,
+                        backgroundColor: appColor.lightPink,
                         height: 50,
                         borderRadius: 5,
                       }}
@@ -433,7 +444,7 @@ const AddGroupScreen = () => {
             <TouchableOpacity onPress={() => handleCreateGroup()}>
               <View
                 style={{
-                  backgroundColor: appColor.purple,
+                  backgroundColor: appColor.lightPink,
                   height: 50,
                   width: "100%",
                   borderRadius: 5,

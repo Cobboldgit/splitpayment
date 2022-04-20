@@ -11,6 +11,7 @@ const GroupDetailsScreen = ({ route }) => {
   const item = route.params;
   const { goBack, navigate } = useNavigation();
 
+
   const handleTransactionPressed = () => {
     navigate("TransactionDetails");
   };
@@ -23,8 +24,9 @@ const GroupDetailsScreen = ({ route }) => {
   return (
     <View style={{ flex: 1, backgroundColor: appColor.white }}>
       <LinearGradient
-        colors={[appColor.purple, appColor.lightBlue]}
-        start={{ x: 0.6, y: 0.3 }}
+        colors={[appColor.lightPink, appColor.lightBlue]}
+        // start={{ x: 0.6, y: 0.3 }}
+        end={{ x: 0.7, y: 1.0 }}
         style={{ height: 50, justifyContent: "center" }}
       >
         <View
@@ -139,17 +141,16 @@ const GroupDetailsScreen = ({ route }) => {
       </ScrollView>
       <View
         style={{
-          height: 100,
           width: Dimensions.get("screen").width,
           // backgroundColor: appColor.red,
           position: "absolute",
-          top: Dimensions.get('screen').height / 2 + 200,
+          top: Dimensions.get('screen').height - 100,
           zIndex: 999,
           justifyContent: "center",
           alignItems: "center"
         }}
       >
-        <TouchableOpacity onPress={() => navigate('Payment')}>
+        <TouchableOpacity onPress={() => navigate('Payment', item)}>
           <AppButton title={"Make a payment"} color={appColor.white} backgroundColor={{start: appColor.green, end: appColor.green}}/>
         </TouchableOpacity>
       </View>

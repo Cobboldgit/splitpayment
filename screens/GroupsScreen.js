@@ -34,6 +34,7 @@ const GroupsScreen = () => {
         const { data } = await Contacts.getContactsAsync({
           fields: [Contacts.PHONE_NUMBERS, Contacts.Fields.Name],
         });
+        console.log(data);
         if (data.length > 0) {
           const contact = data;
           dispatch(getContacts(contact));
@@ -78,12 +79,14 @@ const GroupsScreen = () => {
             <TouchableOpacity onPress={() => navigate("Profile")}>
               <Image
                 source={icons.user}
-                style={{ height: 20, width: 20, tintColor: appColor.purple }}
+                style={{ height: 20, width: 20, tintColor: appColor.black }}
               />
             </TouchableOpacity>
           </View>
           <View style={{ flex: 1, alignItems: "center" }}>
-            <Text style={{ fontSize: 18 }}>Groups</Text>
+          <Text style={{ color: appColor.black, fontSize: 16 }}>
+            Hello {userData[0]?.displayName.split(" ")[0]}!
+          </Text>
           </View>
           <View style={{ flex: 1, alignItems: "flex-end" }}>
             <TouchableOpacity onPress={handleAddGroup}>
@@ -97,11 +100,9 @@ const GroupsScreen = () => {
         style={{ marginHorizontal: 16 }}
       >
         {/* hello user text  */}
-        <View style={{ alignItems: "center", height: 100, marginVertical: 10 }}>
-          <Text style={{ color: appColor.black, fontSize: 16 }}>
-            Hello {userData[0]?.displayName.split(" ")[0]}!
-          </Text>
-        </View>
+        {/* <View style={{ alignItems: "center", height: 100, marginVertical: 10 }}>
+         
+        </View> */}
 
         {/* recent text */}
         <View style={{ marginVertical: 10 }}>

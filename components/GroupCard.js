@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image, } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { appColor, icons } from "../constants";
 import React from "react";
@@ -12,7 +12,7 @@ const GroupCard = ({ onPress, groupName, participants, id, timestamp }) => {
       style={{ marginVertical: 10 }}
     >
       <LinearGradient
-        colors={[appColor.purple, appColor.lightBlue]}
+        colors={[appColor.lightPink, appColor.lightBlue]}
         end={{ x: 0.7, y: 1.0 }}
         style={{
           height: 116,

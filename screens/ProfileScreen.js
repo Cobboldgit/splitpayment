@@ -34,11 +34,11 @@ const ProfileScreen = () => {
             flexDirection: "row",
             height: "100%",
             paddingHorizontal: 16,
-            borderColor: appColor.white,
-            borderBottomWidth: StyleSheet.hairlineWidth,
+            // borderColor: appColor.white,
+            // borderBottomWidth: StyleSheet.hairlineWidth,
           }}
-          colors={[appColor.purple, appColor.lightBlue]}
-          start={{ x: 0.4, y: 1 }}
+          colors={[appColor.lightPink, appColor.lightBlue]}
+          end={{ x: 0.7, y: 1.0 }}
         >
           <View style={{ flex: 1 }}>
             <TouchableOpacity onPress={() => goBack()}>
@@ -57,8 +57,8 @@ const ProfileScreen = () => {
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <LinearGradient
-          colors={[appColor.purple, appColor.lightBlue]}
-          start={{ x: 0.4, y: 1 }}
+          colors={[appColor.lightPink, appColor.lightBlue]}
+          end={{ x: 0.7, y: 1.0 }}
           style={{
             justifyContent: "space-between",
             alignItems: "center",
@@ -71,7 +71,7 @@ const ProfileScreen = () => {
             style={{
               borderColor: appColor.white,
               borderWidth: 2,
-              backgroundColor: appColor.black,
+              backgroundColor: appColor.white,
               height: 120,
               width: 120,
               borderRadius: 200,
@@ -183,7 +183,7 @@ const ProfileScreen = () => {
               borderRadius: 25,
               height: 50,
               width: "100%",
-              backgroundColor: appColor.purple,
+              backgroundColor: appColor.lightPink,
               justifyContent: "center",
               alignItems: "center"
             }}
