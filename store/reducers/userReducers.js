@@ -1,6 +1,7 @@
 const initialState = {
   participant: [],
-  userData: []
+  userData: [],
+  transactions: []
 };
 
 const userReducers = (state = initialState, { type, payload }) => {

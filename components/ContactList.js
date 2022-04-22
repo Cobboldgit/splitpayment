@@ -30,7 +30,6 @@ const ContactList = ({ handleSelectedItem }) => {
 export default ContactList;
 
 const ContactCard = ({ item, onPress }) => {
-  // console.log("card ===========> <============", item);
   return (
     <TouchableOpacity
       onPress={() => {

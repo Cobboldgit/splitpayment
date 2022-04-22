@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
-import firebase, {auth} from "../firebase/firebase";
+import firebase, { auth } from "../firebase/firebase";
 
 import {
   PhoneNumberScreen,
@@ -17,30 +17,39 @@ import {
   LoginScreen,
   ProfileScreen,
   PaymentScreen,
+  LoadingScreen,
 } from "../screens";
 
 const Stack = createNativeStackNavigator();
 
 const Screens = () => {
-  const [currentUser, setCurrentUser] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user && user.uid) {
-        setCurrentUser(true)
+        setTimeout(() => {
+          setCurrentUser(true);
+          setLoading(false);
+        }, 1000);
       } else {
-        setCurrentUser(false)
+        setCurrentUser(false);
+        setLoading(false);
       }
-    })
+    });
 
-    return () => unsubscribe
-  },[])
+    return () => unsubscribe;
+  }, []);
 
   return (
     <NavigationContainer>
       <StatusBar style="auto" />
-      {!currentUser ? (
+      {loading ? (
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="loading" component={LoadingScreen} />
+        </Stack.Navigator>
+      ) : !currentUser && !loading? (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="GetStarted" component={GetStartedScreen} />
           <Stack.Screen name="Phone" component={PhoneNumberScreen} />
@@ -57,14 +66,8 @@ const Screens = () => {
             name="TransactionDetails"
             component={TransactionDetailsScreen}
           />
-          <Stack.Screen
-            name="Profile"
-            component={ProfileScreen}
-          />
-          <Stack.Screen
-            name="Payment"
-            component={PaymentScreen}
-          />
+          <Stack.Screen name="Profile" component={ProfileScreen} />
+          <Stack.Screen name="Payment" component={PaymentScreen} />
         </Stack.Navigator>
       )}
     </NavigationContainer>

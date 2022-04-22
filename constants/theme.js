@@ -1,8 +1,10 @@
 export const appColor = {
   lightPink: "#9979F5",
   lightBlue: "#71b7e6",
+  lighterPink: "#ebe2ff",
+  inputText: "#905dfd",
 
-  red: "#d30000",
+  red: "#ff2e2e",
   lightRed: "#FFF1F0",
 
   // black: "#1E1F20",
@@ -22,6 +24,7 @@ export const appColor = {
   green: "#15d300",
 
   transparent: "transparent",
+  app: "#f6f5fd"
 };
 
 const appTheme = { appColor };

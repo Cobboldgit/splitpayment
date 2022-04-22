@@ -1,7 +1,9 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Image, Dimensions } from "react-native";
 import React from "react";
-import { appColor } from "../constants";
+import { appColor, images } from "../constants";
 import { useNavigation } from "@react-navigation/native";
+import ImageSlider from "../components/ImageSlider";
+
 
 const GetStartedScreen = () => {
   const { navigate, goBack } = useNavigation();
@@ -10,30 +12,12 @@ const GetStartedScreen = () => {
     <View
       style={{
         flex: 1,
-        paddingHorizontal: 16,
+        // paddingHorizontal: 16,
         backgroundColor: appColor.white,
       }}
     >
-      <View style={{ flex: 9 }}>
-        <View style={{ flex: 7,}}></View>
-        <View style={{ flex: 3, }}>
-          <View style={{ flex: 3, }}>
-            <Text
-              style={{
-                fontSize: 40,
-                fontWeight: "bold",
-                color: appColor.black,
-              }}
-            >
-              Create.
-            </Text>
-          </View>
-          <View style={{ flex: 7,}}>
-            <Text style={{ color: appColor.black, fontSize: 18 }}>
-              Easily create a group, add members either from your contacts and use it any time
-            </Text>
-          </View>
-        </View>
+      <View style={{ flex: 9, paddingVertical: 16 }}>
+       <ImageSlider/>
       </View>
       <View style={{ flex: 1, }}>
         <View

@@ -60,22 +60,44 @@ export const createGroup = ({ groupName, participant }) => {
 export const editGroup = ({ participant, groupName, id, transactions }) => {
   return (dispatch, useState, { getFirestore, getFirebase }) => {
     // let data = { groupName, participant, id, tim };
+    const userData = useState().userReducers.userData;
     const userId = getFirebase().auth().currentUser.uid;
     const db = getFirestore();
     const dbRef = db.collection("users");
+    let data = {
+      groupName: groupName,
+      id,
+      participants: participant,
+      timestamp: Date.now(),
+      transactions,
+    };
+    const updateGroupData = userData[0].groups.map((item) => {
+      if (item.id === id) {
+        return data;
+      }
+      return item;
+    });
 
-    // dbRef.where("groups", "array-contains", `${id}`).update({
-    //   groupName: groupName,
-    //   participants: participant,
-    //   transactions: transactions,
-    //   id: id,
-    //   timestamp: Date.now(),
-    // });
-    // dbRef
-    //   .doc(userId)
-    //   .update({ groups: firebase.firestore.FieldValue.arrayRemove(id) })
-    //   .then(() => console.log("removed"));
-    alert("updated")
+    dbRef
+      .doc(userId)
+      .update({ groups: updateGroupData })
+      .then(() => alert("updated"));
+  };
+};
+
+export const deleteGroup = (id ) => {
+ return (dispatch, useState, { getFirestore, getFirebase }) => {
+    const userData = useState().userReducers.userData;
+    const userId = getFirebase().auth().currentUser.uid;
+    const db = getFirestore();
+    const dbRef = db.collection("users");
+    const deletedGroup = userData[0].groups.filter((item) => {
+      return item.id != id;
+    });
+    dbRef
+      .doc(userId)
+      .update({ groups: deletedGroup })
+      .then(() => alert("updated"));
   };
 };
 

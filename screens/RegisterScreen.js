@@ -5,7 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   ImageBackground,
-  StyleSheet
+  StyleSheet,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
@@ -26,7 +26,6 @@ const RegisterScreen = ({ route }) => {
   const disptach = useDispatch();
 
   const phone = route.params;
-  console.log(phone);
   useEffect(() => {
     if (nickName && password && email) {
       setDisabled(false);
@@ -75,7 +74,7 @@ const RegisterScreen = ({ route }) => {
             borderRadius: 20,
             paddingHorizontal: 20,
             borderWidth: StyleSheet.hairlineWidth,
-            borderColor: appColor.lightGray
+            borderColor: appColor.lightGray,
           }}
         >
           <View style={{ height: 70, justifyContent: "center" }}>

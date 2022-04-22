@@ -6,7 +6,7 @@ import {
   Dimensions,
   Image,
   ImageBackground,
-  StyleSheet
+  StyleSheet,
 } from "react-native";
 import React from "react";
 import { appColor, icons } from "../constants";
@@ -14,31 +14,28 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { signOut } from "../store/actions/authActions";
 import { LinearGradient } from "expo-linear-gradient";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, Ionicons } from "@expo/vector-icons";
 
 const ProfileScreen = () => {
   const dispatch = useDispatch();
   const { goBack } = useNavigation();
   const userData = useSelector((state) => state.userReducers.userData);
-  console.log(userData);
   const handleSignOut = () => {
     dispatch(signOut());
   };
   return (
     <View style={{ flex: 1, backgroundColor: appColor.white }}>
-      <View style={{ height: 50, justifyContent: "center" }}>
-        <LinearGradient
+      {/* header */}
+      {/* <View style={{ height: 50, justifyContent: "center" }}>
+        <View
           style={{
             justifyContent: "space-between",
             alignItems: "center",
             flexDirection: "row",
             height: "100%",
             paddingHorizontal: 16,
-            // borderColor: appColor.white,
-            // borderBottomWidth: StyleSheet.hairlineWidth,
+            backgroundColor: appColor.lightPink,
           }}
-          colors={[appColor.lightPink, appColor.lightBlue]}
-          end={{ x: 0.7, y: 1.0 }}
         >
           <View style={{ flex: 1 }}>
             <TouchableOpacity onPress={() => goBack()}>
@@ -53,161 +50,167 @@ const ProfileScreen = () => {
             <Text style={{ color: appColor.white, fontSize: 16 }}>Profile</Text>
           </View>
           <View style={{ flex: 1 }}></View>
-        </LinearGradient>
-      </View>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <LinearGradient
-          colors={[appColor.lightPink, appColor.lightBlue]}
-          end={{ x: 0.7, y: 1.0 }}
-          style={{
-            justifyContent: "space-between",
-            alignItems: "center",
-            height: 250,
-            paddingVertical: 25,
-           
-          }}
-        >
+        </View>
+      </View> */}
+      {/* header end  */}
+
+      {/* body  */}
+      <ScrollView
+        stickyHeaderIndices={[0]}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* profile details  */}
+        <View style={{ height: 300 }}>
+          <View style={{ height: "70%", backgroundColor: appColor.lightPink }}>
+            <Text
+              style={{
+                color: appColor.white,
+                fontSize: 20,
+                fontWeight: "bold",
+                textAlign: "center",
+                marginTop: 20,
+              }}
+            >
+              PROFILE
+            </Text>
+          </View>
           <View
             style={{
-              borderColor: appColor.white,
-              borderWidth: 2,
-              backgroundColor: appColor.white,
-              height: 120,
-              width: 120,
-              borderRadius: 200,
+              position: "absolute",
+              height: 250,
+              width: Dimensions.get("window").width,
+              backgroundColor: appColor.transparent,
+              paddingHorizontal: 16,
+              paddingVertical: 16,
               justifyContent: "flex-end",
-              alignItems: "center",
+              marginTop: 50,
             }}
           >
-            <Image
-              source={icons.user}
-              style={{
-                tintColor: appColor.lightBlue,
-                height: "92%",
-                width: "92%",
-              }}
-            />
-          </View>
-          <Text
-            style={{ fontSize: 24, color: appColor.white, fontWeight: "bold" }}
-          >
-            {userData[0]?.displayName}
-          </Text>
-          <Text style={{ fontSize: 18, color: appColor.white }}>
-            {userData[0]?.phoneNumber}
-          </Text>
-        </LinearGradient>
-        <View style={{ paddingHorizontal: 16, paddingTop: 50 }}>
-          <View
-            style={{
-              height: 55,
-              justifyContent: "space-between",
-              marginBottom: 20,
-            }}
-          >
-            <Text
-              style={{
-                fontWeight: "bold",
-                fontSize: 16,
-                color: appColor.black,
-              }}
-            >
-              Name
-            </Text>
             <View
               style={{
-                borderColor: appColor.black,
-                borderBottomWidth: 1,
-                paddingBottom: 5,
+                width: "100%",
+                height: 220,
+                backgroundColor: appColor.white,
+                shadowColor: appColor.black,
+                shadowOpacity: 0.4,
+                shadowRadius: 20,
+                shadowOffset: {
+                  height: 2,
+                  width: 0,
+                },
+                elevation: 10,
+                borderRadius: 20,
+                flexDirection: "row",
+                paddingVertical: 16,
+                paddingHorizontal: 10,
               }}
             >
-              <Text style={{ fontSize: 18 }}>{userData[0]?.displayName}</Text>
-            </View>
-          </View>
-          <View
-            style={{
-              height: 55,
-              justifyContent: "space-between",
-              marginBottom: 20,
-            }}
-          >
-            <Text
-              style={{
-                fontWeight: "bold",
-                fontSize: 16,
-                color: appColor.black,
-              }}
-            >
-              Email
-            </Text>
-            <View
-              style={{
-                borderColor: appColor.black,
-                borderBottomWidth: 1,
-                paddingBottom: 5,
-              }}
-            >
-              <Text style={{ fontSize: 18 }}>{userData[0]?.email}</Text>
-            </View>
-          </View>
-          <View
-            style={{
-              height: 55,
-              justifyContent: "space-between",
-              marginBottom: 20,
-            }}
-          >
-            <Text
-              style={{
-                fontWeight: "bold",
-                fontSize: 16,
-                color: appColor.black,
-              }}
-            >
-              Phone
-            </Text>
-            <View
-              style={{
-                borderColor: appColor.black,
-                borderBottomWidth: 1,
-                paddingBottom: 5,
-              }}
-            >
-              <Text style={{ fontSize: 18 }}>{userData[0]?.phoneNumber}</Text>
+              <View style={{ flex: 1 }}></View>
+              <View
+                style={{
+                  flex: 8,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <View
+                  style={{
+                    backgroundColor: appColor.lightGray,
+                    borderRadius: 100,
+                    marginBottom: 10,
+                  }}
+                >
+                  <Image
+                    source={icons.user}
+                    style={{
+                      height: 70,
+                      width: 70,
+                      tintColor: appColor.lightPink,
+                      margin: 5,
+                    }}
+                  />
+                </View>
+                <Text
+                  style={{ fontSize: 20, fontWeight: "bold", marginBottom: 5 }}
+                >
+                  {userData[0].displayName}
+                </Text>
+                <Text style={{ fontSize: 18, color: appColor.darkgray }}>
+                  {userData[0].email}
+                </Text>
+              </View>
+              <View style={{ flex: 1 }}>
+                <View style={{ backgroundColor: appColor.white }}>
+                  <MaterialIcons
+                    name="edit-off"
+                    size={24}
+                    color={appColor.lightPink}
+                  />
+                </View>
+              </View>
             </View>
           </View>
         </View>
-        <View style={{paddingHorizontal: 16, marginTop: 30, marginBottom: 30, height: 120, justifyContent: "space-between"}}>
-          <TouchableOpacity
-            style={{
-              borderRadius: 25,
-              height: 50,
-              width: "100%",
-              backgroundColor: appColor.lightPink,
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-          >
-            <Text style={{color: appColor.white, fontSize: 18,}}>Save</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-          onPress={handleSignOut}
-            style={{
-              borderRadius: 25,
-              height: 50,
-              width: "100%",
-              backgroundColor: appColor.transparent,
-              borderColor: appColor.gray,
-              borderWidth: 1,
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-          >
-            <Text style={{color: appColor.red, fontSize: 18,}}>Sign out</Text>
-          </TouchableOpacity>
+        {/* profile details end  */}
+
+        {/* buttons  */}
+        <View style={{ paddingHorizontal: 16, marginTop: 30 }}>
+          <ProfileOption
+            title={"Groups"}
+            icon={<Ionicons name="list" color={appColor.white} size={30} />}
+            onPress={() => goBack()}
+          />
+          <ProfileOption
+            title={"Payment History"}
+            icon={
+              <MaterialIcons name="payments" color={appColor.white} size={30} />
+            }
+            onPress={() => alert("payment")}
+          />
+          <ProfileOption
+            title={"Logout"}
+            icon={<Ionicons name="log-out" color={appColor.white} size={30} />}
+            onPress={handleSignOut}
+          />
         </View>
       </ScrollView>
+      {/* body end  */}
     </View>
+  );
+};
+
+const ProfileOption = ({ onPress, title, icon }) => {
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      style={{ flexDirection: "row", alignItems: "center", marginVertical: 15 }}
+    >
+      <View style={{ flex: 2 }}>
+        <View
+          style={{
+            borderRadius: 100,
+            backgroundColor: appColor.lightPink,
+            height: 50,
+            width: 50,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {icon}
+        </View>
+      </View>
+      <View style={{ flex: 8 }}>
+        <Text
+          style={{
+            color: appColor.black,
+            fontWeight: "bold",
+            fontSize: 18,
+          }}
+        >
+          {title}
+        </Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 

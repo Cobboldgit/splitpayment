@@ -1,4 +1,11 @@
-import { View, Text, ScrollView, Image, TouchableOpacity,Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 import React from "react";
 import { appColor, icons } from "../constants";
 import { LinearGradient } from "expo-linear-gradient";
@@ -10,6 +17,8 @@ import AppButton from "../components/AppButton";
 const GroupDetailsScreen = ({ route }) => {
   const item = route.params;
   const { goBack, navigate } = useNavigation();
+  
+  
 
   const handleTransactionPressed = () => {
     navigate("TransactionDetails");
@@ -17,17 +26,12 @@ const GroupDetailsScreen = ({ route }) => {
 
   // handle edit
   const handleEdit = () => {
-    navigate('GroupSettings', item)
-  }
+    navigate("GroupSettings", item);
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: appColor.white }}>
-      <LinearGradient
-        colors={[appColor.lightPink, appColor.lightBlue]}
-        // start={{ x: 0.6, y: 0.3 }}
-        end={{ x: 0.7, y: 1.0 }}
-        style={{ height: 50, justifyContent: "center" }}
-      >
+      <View style={{ height: 50, justifyContent: "center" }}>
         <View
           style={{
             flexDirection: "row",
@@ -39,23 +43,23 @@ const GroupDetailsScreen = ({ route }) => {
             <TouchableOpacity onPress={() => goBack()}>
               <MaterialIcons
                 name="arrow-back-ios"
-                color={appColor.white}
+                color={appColor.black}
                 size={20}
               />
             </TouchableOpacity>
           </View>
-          <View style={{ flex: 1, alignItems: "center" }}>
-            <Text style={{ fontSize: 18, color: appColor.white }}>
-              Group Details
+          <View style={{ flex: 2, alignItems: "center" }}>
+            <Text style={{ fontSize: 18, color: appColor.black }}>
+              GROUP DETAILS
             </Text>
           </View>
           <View style={{ flex: 1, alignItems: "flex-end" }}>
             <TouchableOpacity onPress={handleEdit}>
-            <MaterialIcons name="edit" size={20} color={appColor.white} />
+              <MaterialIcons name="edit" size={20} color={appColor.black} />
             </TouchableOpacity>
           </View>
         </View>
-      </LinearGradient>
+      </View>
       <ScrollView
         style={{ marginHorizontal: 16, paddingTop: 20 }}
         showsVerticalScrollIndicator={false}
@@ -123,18 +127,29 @@ const GroupDetailsScreen = ({ route }) => {
             justifyContent: "space-between",
           }}
         >
-          <Text style={{ fontSize: 18 }}>TODAY</Text>
+          <Text style={{ fontSize: 18 }}>TRANSACTIONS</Text>
           <Text>Synced 2 minutes ago</Text>
         </View>
         {/* ===== DATE HEADER END ====== */}
 
         {/* ======== TRANSACTIONS LISTING =======  */}
         <View>
-          {item?.transactions?.map((item, index) => {
-            return (
-              <Transactionslist item={item} onPress={() => handleTransactionPressed()} />
-            );
-          })}
+          {true ? (
+            <View
+              style={{ justifyContent: "center", alignItems: "center", height: 200 }}
+            >
+              <Text style={{color: appColor.darkgray, fontSize: 18}}>no transactions</Text>
+            </View>
+          ) : (
+            item?.transactions?.map((item, index) => {
+              return (
+                <Transactionslist
+                  item={item}
+                  onPress={() => handleTransactionPressed()}
+                />
+              );
+            })
+          )}
         </View>
         {/* ======== TRANSACTIONS LISTING END ========  */}
       </ScrollView>
@@ -143,14 +158,18 @@ const GroupDetailsScreen = ({ route }) => {
           width: Dimensions.get("screen").width,
           // backgroundColor: appColor.red,
           position: "absolute",
-          top: Dimensions.get('screen').height - 100,
+          top: Dimensions.get("screen").height - 100,
           zIndex: 999,
           justifyContent: "center",
-          alignItems: "center"
+          alignItems: "center",
         }}
       >
-        <TouchableOpacity onPress={() => navigate('Payment', item)}>
-          <AppButton title={"Make a payment"} color={appColor.white} backgroundColor={{start: appColor.green, end: appColor.green}}/>
+        <TouchableOpacity onPress={() => navigate("Payment", item)}>
+          <AppButton
+            title={"Make a payment"}
+            color={appColor.white}
+            backgroundColor={{ start: appColor.green, end: appColor.green }}
+          />
         </TouchableOpacity>
       </View>
     </View>

@@ -24,7 +24,6 @@ const AddedParticipant = () => {
   const participant = useSelector((state) => state.userReducers.participant);
   const [modalVisible, setModalVisible] = useState(false);
 
-  // console.log(participant);
 
   const handleDone = ({ nickName, phone }) => {
     let data = {
@@ -51,15 +50,21 @@ const AddedParticipant = () => {
           style={{
             // borderColor: appColor.black,
             // borderBottomWidth: StyleSheet.hairlineWidth,
-            paddingVertical: 10,
+            paddingVertical: 20,
             paddingHorizontal: 10,
-            borderRadius: 5,
-            borderWidth: StyleSheet.hairlineWidth,
-            borderColor: appColor.black,
             marginVertical: 10,
             flexDirection: "row",
             justifyContent: "space-between",
-            borderBottomWidth: 1
+            borderRadius: 5,
+            backgroundColor: appColor.white,
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 4,
+            },
+            shadowOpacity: 0,
+            shadowRadius: 4.65,
+            elevation: 8,
           }}
         >
           <View>
@@ -77,7 +82,10 @@ const AddedParticipant = () => {
               flexDirection: "row",
             }}
           >
-            <TouchableOpacity style={{marginRight: 10}} onPress={() => handleEdit()}>
+            <TouchableOpacity
+              style={{ marginRight: 10 }}
+              onPress={() => handleEdit()}
+            >
               <MaterialIcons name="edit" color={appColor.lightPink} size={20} />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => handleDelete(item?.phone)}>

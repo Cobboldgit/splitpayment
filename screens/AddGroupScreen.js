@@ -185,7 +185,7 @@ const AddGroupScreen = () => {
                     borderBottomWidth: StyleSheet.hairlineWidth,
                     width: "15%",
                     justifyContent: "center",
-                    alignItems: "center"
+                    alignItems: "center",
                   }}
                 >
                   <MaterialIcons
@@ -195,7 +195,7 @@ const AddGroupScreen = () => {
                   />
                 </View>
                 <TextInput
-                placeholder="Search contact"
+                  placeholder="Search contact"
                   style={{
                     height: 50,
                     backgroundColor: appColor.white,
@@ -205,7 +205,7 @@ const AddGroupScreen = () => {
                     borderBottomWidth: StyleSheet.hairlineWidth,
                     borderRightWidth: StyleSheet.hairlineWidth,
                     borderColor: appColor.gray,
-                    width: "85%"
+                    width: "85%",
                   }}
                 />
               </View>
@@ -215,9 +215,7 @@ const AddGroupScreen = () => {
         </TouchableWithoutFeedback>
       </Modal>
       {/* header  */}
-      <LinearGradient
-        colors={[appColor.lightPink, appColor.lightBlue]}
-        end={{ x: 0.7, y: 1.0 }}
+      <View
         style={{ height: 50, justifyContent: "center" }}
       >
         <View
@@ -231,23 +229,23 @@ const AddGroupScreen = () => {
             <TouchableOpacity onPress={() => goBack()}>
               <MaterialIcons
                 name="arrow-back-ios"
-                color={appColor.white}
+                color={appColor.black}
                 size={20}
               />
             </TouchableOpacity>
           </View>
           <View style={{ flex: 1, alignItems: "center" }}>
-            <Text style={{ fontSize: 18, color: appColor.white }}>
+            <Text style={{ fontSize: 18, color: appColor.black }}>
               Create Group
             </Text>
           </View>
           <View style={{ flex: 1, alignItems: "flex-end" }}>
             <TouchableOpacity onPress={handleCreateGroup}>
-              <MaterialIcons name="done" size={20} color={appColor.white} />
+              <MaterialIcons name="done" size={20} color={appColor.black} />
             </TouchableOpacity>
           </View>
         </View>
-      </LinearGradient>
+      </View>
 
       {/* body  */}
       <TouchableWithoutFeedback onPress={() => handleSubmitAddPart()}>
@@ -286,14 +284,24 @@ const AddGroupScreen = () => {
                   setFocused(false);
                 }}
                 style={{
-                  borderColor:
-                    focused || groupName ? appColor.lightPink : appColor.gray,
-                  borderWidth: StyleSheet.hairlineWidth,
+                  // borderColor:
+                  //   focused || groupName ? appColor.black : appColor.gray,
+                  // borderWidth: StyleSheet.hairlineWidth,
+                  // borderBottomWidth: 1,
                   borderRadius: 5,
                   height: 50,
                   paddingHorizontal: 20,
-                  borderBottomWidth: 1,
                   fontSize: 16,
+                  backgroundColor: appColor.lighterPink,
+                  color: appColor.inputText
+                  // shadowColor: "#000",
+                  // shadowOffset: {
+                  //   width: 0,
+                  //   height: 4,
+                  // },
+                  // shadowOpacity: 0,
+                  // shadowRadius: 4.65,
+                  // elevation: 8,
                 }}
               />
             </View>
@@ -355,11 +363,12 @@ const AddGroupScreen = () => {
                       returnKeyLabel="done"
                       placeholder="Type participant's nickname"
                       style={{
-                        borderBottomColor: appColor.black,
-                        borderBottomWidth: StyleSheet.hairlineWidth,
-                        color: appColor.black,
                         fontSize: 16,
-                        paddingVertical: 5,
+                        backgroundColor: appColor.lighterPink,
+                        color: appColor.inputText,
+                        borderRadius: 5,
+                        height: 50,
+                        paddingHorizontal: 20
                       }}
                     />
                   </View>
@@ -381,22 +390,28 @@ const AddGroupScreen = () => {
                       placeholder="Type participant's phone"
                       keyboardType="number-pad"
                       style={{
-                        borderBottomColor: appColor.black,
-                        borderBottomWidth: StyleSheet.hairlineWidth,
-                        color: appColor.black,
                         fontSize: 16,
-                        paddingVertical: 5,
+                        backgroundColor: appColor.lighterPink,
+                        color: appColor.inputText,
+                        height: 50,
+                        paddingHorizontal: 20,
+                        borderTopLeftRadius: 5,
+                        borderBottomLeftRadius: 5,
                         flex: 9,
                       }}
                     />
                     <View
                       style={{
                         flex: 1,
-                        marginLeft: 10,
-                        paddingVertical: 7,
                         alignItems: "center",
-                        borderBottomColor: appColor.black,
-                        borderBottomWidth: StyleSheet.hairlineWidth,
+                        justifyContent: 'center',
+                        backgroundColor: appColor.lighterPink,
+                        color: appColor.inputText,
+                        height: 50,
+                        paddingVertical: 7,
+                        paddingHorizontal: 20,
+                        borderTopRightRadius: 5,
+                        borderBottomRightRadius: 5
                       }}
                     >
                       <TouchableOpacity

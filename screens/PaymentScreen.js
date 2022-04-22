@@ -7,7 +7,8 @@ import {
   Switch,
   Modal,
   StyleSheet,
-  Pressable
+  Pressable,
+  Image,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { appColor, icons } from "../constants";
@@ -16,79 +17,54 @@ import axios from "axios";
 import { LinearGradient } from "expo-linear-gradient";
 import AppButton from "../components/AppButton";
 import { BlurView } from "expo-blur";
-import { EvilIcons } from "@expo/vector-icons";
+import { EvilIcons, MaterialIcons, Ionicons } from "@expo/vector-icons";
 import CheckBox from "../components/CheckBox";
 
 import BlurViewNext from "../BlurBoxNew";
 import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 
 const PaymentScreen = ({ route }) => {
   const [focused, setFocused] = useState("no");
   const [remark, setRemark] = useState("");
   const [amount, setAmount] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
-  const [selectedItem, setSelectedItem] = useState(null)
   const [selectedMembers, setSelectedMembers] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(null);
   const [isEnabled, setIsEnabled] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [a, setA] = useState(false);
-  const [accountNumber, setAccountNumber] = useState("")
+  const [accountNumber, setAccountNumber] = useState("");
   const item = route.params;
-  const userData = useSelector((state) => state.userReducers.userData)
-
-  // console.log("===============>", userData);
-
+  const userData = useSelector((state) => state.userReducers.userData);
+  const { goBack } = useNavigation();
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+
+  const handleSelectedItem = (item) => {
+    selectedMembers.push(item);
+  };
 
   const proceedToPay = () => {
     if (accountNumber) {
       setModalVisible(!modalVisible);
     } else {
-      alert("Enter sender number")
+      alert("Enter sender number");
     }
   };
 
   useEffect(() => {
     if (isEnabled) {
-      setAccountNumber(userData[0]?.phoneNumber)
+      setAccountNumber(userData[0]?.phoneNumber);
     } else {
-      setAccountNumber("")
+      setAccountNumber("");
     }
-  },[isEnabled])
- 
+  }, [isEnabled]);
 
   const renderParticipants = () => {
-    const handleIsChecked = () => {
-    
-    }
     return item?.participants.map((item, index) => {
       return (
-        <Pressable key={index}>
-          <View
-          style={{
-            borderColor: appColor.black,
-            borderWidth: StyleSheet.hairlineWidth,
-            borderBottomWidth: 1,
-            borderRadius: 5,
-            height: 50,
-            alignItems: "center",
-            paddingHorizontal: 16,
-            marginVertical: 10,
-            flexDirection: "row"
-          }}
-        >
-            <CheckBox
-              size={24}
-              color={appColor.black}
-              onPress={() => setSelectedItem(item)}
-              isChecked={selectedItem}
-            />
-            <View style={{ marginLeft: 10 }}>
-              <Text>{item?.nickName}</Text>
-              <Text style={{ color: appColor.darkgray }}>{item?.phone}</Text>
-            </View>
+        <View key={index}>
+          <ListPart item={item} handleSelectedItem={handleSelectedItem} />
         </View>
-        </Pressable>
       );
     });
   };
@@ -104,7 +80,7 @@ const PaymentScreen = ({ route }) => {
         }}
       >
         <BlurViewNext tint={"default"} intensity={320} style={{ flex: 1 }}>
-          <View style={{ paddingHorizontal: 20, paddingVertical: 20 }}>
+          <View style={{ paddingHorizontal: 20, paddingVertical: 40 }}>
             <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
               <EvilIcons name="close" size={24} color="black" />
             </TouchableOpacity>
@@ -197,12 +173,44 @@ const PaymentScreen = ({ route }) => {
 
       {/* header */}
       <LinearGradient
-        colors={[appColor.purple, appColor.lightBlue]}
+        colors={[appColor.lightPink, appColor.lightBlue]}
         start={{ x: 1, y: 0 }}
         style={{
-          height: Dimensions.get("window").height / 3,
+          height: Dimensions.get("window").height / 3 - 50,
+          justifyContent: "space-around",
+          alignItems: "center",
         }}
-      ></LinearGradient>
+      >
+        <View
+          style={{
+            paddingVertical: 5,
+            paddingHorizontal: 16,
+            alignSelf: "flex-start",
+          }}
+        >
+          <TouchableOpacity onPress={() => goBack()}>
+            <MaterialIcons
+              name="arrow-back-ios"
+              size={20}
+              color={appColor.white}
+            />
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            backgroundColor: appColor.lightGray,
+            height: 100,
+            width: 100,
+            borderRadius: 100,
+            justifyContent: "center",
+            alignItems: "center",
+            paddingVertical: 30,
+            paddingHorizontal: 20,
+          }}
+        >
+          <Image source={icons.mtn} style={{ height: "100%", width: "100%" }} />
+        </View>
+      </LinearGradient>
       <View
         style={{
           marginTop: 20,
@@ -229,17 +237,13 @@ const PaymentScreen = ({ route }) => {
             setFocused("no");
           }}
           placeholder="Enter number. eg: 0541231231"
-          placeholderTextColor={
-            focused === "remark" ? appColor.black : appColor.gray
-          }
           style={{
-            borderColor: focused === "remark" ? appColor.black : appColor.gray,
-            borderWidth: StyleSheet.hairlineWidth,
-            borderBottomWidth: 1,
             borderRadius: 5,
             height: 50,
             paddingHorizontal: 20,
             fontSize: 16,
+            backgroundColor: appColor.lighterPink,
+            color: appColor.inputText,
           }}
         />
       </View>
@@ -253,12 +257,15 @@ const PaymentScreen = ({ route }) => {
       >
         <Text style={{ color: appColor.black }}>Use my number</Text>
         <Switch
-          trackColor={{ false: appColor.black, true: appColor.purple }}
+          trackColor={{ false: appColor.black, true: appColor.lightPink }}
           thumbColor={isEnabled ? appColor.white : "#f4f3f4"}
           ios_backgroundColor="#3e3e3e"
           onValueChange={toggleSwitch}
           value={isEnabled}
         />
+      </View>
+      <View style={{paddingHorizontal: 16}}>
+        <Text style={{fontSize: 18, color: appColor.gray}}>Please make sure all reciepent numbers Mtn momo number</Text>
       </View>
       <View
         style={{
@@ -273,13 +280,48 @@ const PaymentScreen = ({ route }) => {
             color={appColor.white}
             title="Next"
             backgroundColor={{
-              start: appColor.purple,
+              start: appColor.lightPink,
               end: appColor.lightBlue,
             }}
           />
         </TouchableOpacity>
       </View>
     </View>
+  );
+};
+
+const ListPart = ({ item, handleSelectedItem }) => {
+  const [isChecked, setIsChecked] = useState(false);
+  return (
+    <Pressable>
+      <View
+        style={{
+          // borderColor: appColor.black,
+          // borderWidth: StyleSheet.hairlineWidth,
+          // borderBottomWidth: 1,
+          borderRadius: 5,
+          height: 50,
+          alignItems: "center",
+          paddingHorizontal: 16,
+          marginVertical: 10,
+          flexDirection: "row",
+        }}
+      >
+        <CheckBox
+          size={24}
+          color={appColor.black}
+          onPress={() => {
+            setIsChecked(!isChecked);
+            handleSelectedItem(item);
+          }}
+          isChecked={!isChecked}
+        />
+        <View style={{ marginLeft: 10 }}>
+          <Text>{item?.nickName}</Text>
+          <Text style={{ color: appColor.darkgray }}>{item?.phone}</Text>
+        </View>
+      </View>
+    </Pressable>
   );
 };
 

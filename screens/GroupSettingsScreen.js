@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addParticipant,
   clearAddedParticipant,
+  deleteGroup,
   editGroup,
   editParticipant,
 } from "../store/actions/userActions";
@@ -28,7 +29,9 @@ import ContactList from "../components/ContactList";
 const GroupSettingsScreen = ({ route }) => {
   const item = route.params;
   const dispatch = useDispatch();
-  const { participant } = useSelector((state) => state.userReducers);
+  const { participant, transactions } = useSelector(
+    (state) => state.userReducers
+  );
   const [focused, setFocused] = useState(false);
   const { goBack, navigate } = useNavigation();
   const [groupName, setGroupName] = useState(item?.groupName);
@@ -104,12 +107,12 @@ const GroupSettingsScreen = ({ route }) => {
       setSelectedItem(null);
     }
   };
-
   const handleSave = () => {
     let data = {
       groupName,
       id: item?.id,
       participant,
+      transactions,
     };
     dispatch(editGroup(data));
     dispatch(clearAddedParticipant());
@@ -118,6 +121,11 @@ const GroupSettingsScreen = ({ route }) => {
     setSelectedItem(null);
     setGroupName("New group");
     goBack();
+  };
+  const handleDeleteGroup = () => {
+    let id = item.id
+    dispatch(deleteGroup(id));
+    navigate("Groups")
   };
 
   return (
@@ -144,61 +152,74 @@ const GroupSettingsScreen = ({ route }) => {
           style={{ flex: 1 }}
         >
           <View style={{ flex: 1, justifyContent: "flex-end" }}>
-            <Animated.View
+            <View
               style={{
-                height: modalHeight,
                 backgroundColor: appColor.white,
-                borderTopRightRadius: 20,
-                borderTopLeftRadius: 20,
-                overflow: "hidden",
-                shadowColor: appColor.black,
-                shadowOpacity: 0.35,
-                shadowOffset: {
-                  height: -4,
-                  width: 0,
-                },
-                shadowRadius: 5,
-                elevation: 10,
+                flex: 1,
               }}
             >
               <View
                 style={{
                   justifyContent: "center",
-                  alignItems: "center",
-                  height: 40,
+                  // alignItems: "center",,
+                  paddingHorizontal: 20,
+
+                  height: 100,
                 }}
               >
                 <TouchableOpacity
-                  onPress={() => {
-                    setModalVisible(!modalVisible);
-                    modalHeight.setValue(Dimensions.get("screen").height / 2);
-                  }}
+                  onPress={() => setModalVisible(!modalVisible)}
                 >
-                  <View style={{ height: "100%", justifyContent: "center" }}>
-                    <View
-                      style={{
-                        height: 4,
-                        width: 50,
-                        backgroundColor: appColor.gray,
-                        borderRadius: 3,
-                      }}
-                    />
-                  </View>
+                  <MaterialIcons
+                    name="arrow-back-ios"
+                    size={24}
+                    color={appColor.darkgray}
+                  />
                 </TouchableOpacity>
               </View>
-              <ContactList
-                handleSelectedItem={handleSelectedItem}
-                onScrollBegin={() => handleModalHeight()}
-              />
-            </Animated.View>
+              <View style={{ paddingHorizontal: 20, flexDirection: "row" }}>
+                <View
+                  style={{
+                    height: 50,
+                    backgroundColor: appColor.white,
+                    borderColor: appColor.gray,
+                    borderLeftWidth: StyleSheet.hairlineWidth,
+                    borderTopLeftRadius: 25,
+                    borderBottomLeftRadius: 25,
+                    borderTopWidth: StyleSheet.hairlineWidth,
+                    borderBottomWidth: StyleSheet.hairlineWidth,
+                    width: "15%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <MaterialIcons
+                    name="search"
+                    size={24}
+                    color={appColor.darkgray}
+                  />
+                </View>
+                <TextInput
+                  placeholder="Search contact"
+                  style={{
+                    height: 50,
+                    backgroundColor: appColor.white,
+                    borderTopRightRadius: 25,
+                    borderBottomRightRadius: 25,
+                    borderTopWidth: StyleSheet.hairlineWidth,
+                    borderBottomWidth: StyleSheet.hairlineWidth,
+                    borderRightWidth: StyleSheet.hairlineWidth,
+                    borderColor: appColor.gray,
+                    width: "85%",
+                  }}
+                />
+              </View>
+              <ContactList handleSelectedItem={handleSelectedItem} />
+            </View>
           </View>
         </TouchableWithoutFeedback>
       </Modal>
-      <LinearGradient
-        colors={[appColor.lightPink, appColor.lightBlue]}
-        start={{ x: 0.6, y: 0.3 }}
-        style={{ height: 50, justifyContent: "center" }}
-      >
+      <View style={{ height: 50, justifyContent: "center" }}>
         <View
           style={{
             flexDirection: "row",
@@ -210,29 +231,26 @@ const GroupSettingsScreen = ({ route }) => {
             <TouchableOpacity onPress={() => goBack()}>
               <MaterialIcons
                 name="arrow-back-ios"
-                color={appColor.white}
+                color={appColor.black}
                 size={20}
               />
             </TouchableOpacity>
           </View>
           <View style={{ flex: 1, alignItems: "center" }}>
-            <Text style={{ fontSize: 18, color: appColor.white }}>
+            <Text style={{ fontSize: 18, color: appColor.black }}>
               Edit Group
             </Text>
           </View>
           <View style={{ flex: 1, alignItems: "flex-end" }}>
             <TouchableOpacity onPress={handleSave}>
-              <MaterialIcons name="done" size={20} color={appColor.white} />
+              <MaterialIcons name="done" size={20} color={appColor.black} />
             </TouchableOpacity>
           </View>
         </View>
-      </LinearGradient>
-      <ScrollView
-        style={{ paddingHorizontal: 16 }}
-        showsVerticalScrollIndicator={false}
-      >
+      </View>
+      <ScrollView showsVerticalScrollIndicator={false}>
         {/* group name  */}
-        <View style={{ marginVertical: 10 }}>
+        <View style={{ marginVertical: 10, paddingHorizontal: 16 }}>
           <View
             style={{
               // backgroundColor: appColor.lightGray,
@@ -259,20 +277,30 @@ const GroupSettingsScreen = ({ route }) => {
               setFocused(false);
             }}
             style={{
-              borderColor:
-                focused || groupName ? appColor.black : appColor.gray,
-              borderWidth: StyleSheet.hairlineWidth,
+              // borderColor:
+              //   focused || groupName ? appColor.black : appColor.gray,
+              // borderWidth: StyleSheet.hairlineWidth,
               borderRadius: 5,
               height: 50,
               paddingHorizontal: 20,
-              borderBottomWidth: 1,
+              // borderBottomWidth: 1,
               fontSize: 16,
+              backgroundColor: appColor.lighterPink,
+              // shadowColor: "#000",
+              // shadowOffset: {
+              //   width: 0,
+              //   height: 4,
+              // },
+              // shadowOpacity: 0,
+              // shadowRadius: 4.65,
+              // elevation: 8,
+              color: appColor.inputText,
             }}
           />
         </View>
 
         {/* participants  */}
-        <View style={{ marginBottom: 50 }}>
+        <View style={{ marginBottom: 50, paddingHorizontal: 16 }}>
           <View
             style={{
               paddingVertical: 5,
@@ -315,11 +343,12 @@ const GroupSettingsScreen = ({ route }) => {
                   returnKeyLabel="done"
                   placeholder="Type participant's nickname"
                   style={{
-                    borderBottomColor: appColor.black,
-                    borderBottomWidth: StyleSheet.hairlineWidth,
-                    color: appColor.black,
                     fontSize: 16,
-                    paddingVertical: 5,
+                    backgroundColor: appColor.lighterPink,
+                    color: appColor.inputText,
+                    borderRadius: 5,
+                    height: 50,
+                    paddingHorizontal: 20,
                   }}
                 />
               </View>
@@ -341,22 +370,28 @@ const GroupSettingsScreen = ({ route }) => {
                   placeholder="Type participant's phone"
                   keyboardType="number-pad"
                   style={{
-                    borderBottomColor: appColor.black,
-                    borderBottomWidth: StyleSheet.hairlineWidth,
-                    color: appColor.black,
                     fontSize: 16,
-                    paddingVertical: 5,
+                    backgroundColor: appColor.lighterPink,
+                    color: appColor.inputText,
+                    height: 50,
+                    paddingHorizontal: 20,
+                    borderTopLeftRadius: 5,
+                    borderBottomLeftRadius: 5,
                     flex: 9,
                   }}
                 />
                 <View
                   style={{
                     flex: 1,
-                    marginLeft: 10,
-                    paddingVertical: 7,
                     alignItems: "center",
-                    borderBottomColor: appColor.black,
-                    borderBottomWidth: StyleSheet.hairlineWidth,
+                    justifyContent: "center",
+                    backgroundColor: appColor.lighterPink,
+                    color: appColor.inputText,
+                    height: 50,
+                    paddingVertical: 7,
+                    paddingHorizontal: 20,
+                    borderTopRightRadius: 5,
+                    borderBottomRightRadius: 5,
                   }}
                 >
                   <TouchableOpacity
@@ -386,52 +421,34 @@ const GroupSettingsScreen = ({ route }) => {
               </View>
             </Animated.View>
           ) : null}
-          <AddedParticipant />
+          <View>
+            <AddedParticipant />
+          </View>
         </View>
       </ScrollView>
 
-      {/* <View
+      <View
         style={{
-          height: 150,
-          alignItems: "center",
-          justifyContent: "center",
           position: "absolute",
-          width: Dimensions.get("screen").width - 30,
-          transform: [{ translateY: Dimensions.get("window").height - 150 }],
-          backgroundColor: appColor.white,
-          zIndex: 999,
-          flexDirection: "row",
+          transform: [{ translateY: Dimensions.get("window").height - 100 }],
+          width: Dimensions.get("window").width,
+          paddingHorizontal: 16,
         }}
       >
         <TouchableOpacity
-          onPress={() => alert("Transaction Deleted")}
+          onPress={() => handleDeleteGroup()}
           style={{
-            backgroundColor: appColor.lightPink,
-            borderRadius: 5,
-            height: 40,
             justifyContent: "center",
             alignItems: "center",
-            flex: 1,
-            margin: 2,
-          }}
-        >
-          <Text style={{ color: appColor.white }}>Save</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => alert("Transaction Deleted")}
-          style={{
+            height: 50,
+            width: "100%",
             backgroundColor: appColor.red,
             borderRadius: 5,
-            height: 40,
-            justifyContent: "center",
-            alignItems: "center",
-            flex: 1,
-            margin: 2,
           }}
         >
           <Text style={{ color: appColor.white }}>Delete</Text>
         </TouchableOpacity>
-      </View> */}
+      </View>
     </View>
   );
 };

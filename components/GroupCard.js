@@ -64,7 +64,7 @@ const GroupCard = ({ onPress, groupName, participants, id, timestamp }) => {
           <Text style={{ color: appColor.white, fontSize: 16 }}>
             {new Date(timestamp).toLocaleString().split(" ")[1] +
               " " +
-              new Date(timestamp).toLocaleString().split(" ")[3]}
+              new Date(timestamp).toLocaleString().split(" ")[2]}
           </Text>
         </View>
       </LinearGradient>

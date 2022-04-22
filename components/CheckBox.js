@@ -3,8 +3,7 @@ import React from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const CheckBox = ({ isChecked, onPress, size, color }) => {
-  console.log(isChecked);
-  const iconName = isChecked ? "checkbox-marked" : "checkbox-blank-outline";
+  const iconName = !isChecked ? "checkbox-marked" : "checkbox-blank-outline";
   
   return (
     <View>
