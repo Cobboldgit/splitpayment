@@ -265,7 +265,8 @@ const PaymentScreen = ({ route }) => {
         />
       </View>
       <View style={{paddingHorizontal: 16}}>
-        <Text style={{fontSize: 18, color: appColor.gray}}>Please make sure all reciepent numbers Mtn momo number</Text>
+        <Text style={{fontSize: 18, color: appColor.gray}}>Please make sure all reciepent numbers Mtn momo number.</Text>
+        <Text style={{fontSize: 18, color: appColor.gray}}></Text>
       </View>
       <View
         style={{
