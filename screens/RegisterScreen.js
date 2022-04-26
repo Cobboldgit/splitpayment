@@ -43,6 +43,9 @@ const RegisterScreen = ({ route }) => {
         phone,
       };
       disptach(createUserWithEmail(data));
+      setNickName('')
+      setEmail('')
+      password('')
     }
   };
 

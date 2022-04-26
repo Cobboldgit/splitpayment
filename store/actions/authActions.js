@@ -27,10 +27,10 @@ export const createUserWithEmail = ({ email, password, nickName, phone }) => {
                 ],
               })
               .then(() => {
-                alert('doc created')
+                // alert('doc created')
               })
               .catch((error) => {
-                alert(error.message);
+                // alert(error.message);
               });
           }
         });

@@ -7,6 +7,13 @@ import firebase from "../../firebase/firebase";
 // edit group
 // get all groups
 
+export const alertPending = (boolean) => {
+  return ({
+    type: "PAYMENT_PENDING",
+    payload: boolean
+  })
+}
+
 export const addParticipant = (data) => {
   return {
     type: "ADD_PARTICIPANT",
@@ -81,7 +88,9 @@ export const editGroup = ({ participant, groupName, id, transactions }) => {
     dbRef
       .doc(userId)
       .update({ groups: updateGroupData })
-      .then(() => alert("updated"));
+      .then(() => {
+        // alert("updated")
+      });
   };
 };
 

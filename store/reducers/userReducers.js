@@ -1,7 +1,8 @@
 const initialState = {
   participant: [],
   userData: [],
-  transactions: []
+  transactions: [],
+  paymentPending: false
 };
 
 const userReducers = (state = initialState, { type, payload }) => {
@@ -23,6 +24,9 @@ const userReducers = (state = initialState, { type, payload }) => {
             return item.phone !== payload
           })
           return {...state, participant: filterParticipant}
+          case "PAYMENT_PENDING":
+            console.log(state.paymentPending);
+            return {...state, paymentPending: payload}
       case "GET_USER_DATA":
           return{...state, userData: payload}
     default:

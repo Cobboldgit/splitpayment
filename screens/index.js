@@ -10,6 +10,7 @@ import LoginScreen from "./LoginScreen";
 import ProfileScreen from "./ProfileScreen";
 import PaymentScreen from "./PaymentScreen";
 import LoadingScreen from "./LoadingScreen";
+import PaymentTest from "./PaymentTest";
 export {
   PhoneNumberScreen,
   RegisterScreen,
@@ -22,5 +23,6 @@ export {
   GetStartedScreen,
   ProfileScreen,
   PaymentScreen,
-  LoadingScreen
+  LoadingScreen,
+  PaymentTest
 };

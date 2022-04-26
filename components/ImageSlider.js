@@ -12,9 +12,9 @@ const ImageSlider = () => {
       text: "Easily create a group, add members either from your contacts and use it any time",
     },
     {
-      url: images.groupCard,
+      url: images.pay,
       title: "Payment.",
-      text: "Pay your team with just one click",
+      text: "Pay your team with just one click. Choose who recieve any time you want to make a payment",
     },
   ]);
   let _carousel;

@@ -19,10 +19,11 @@ import AppButton from "../components/AppButton";
 import { BlurView } from "expo-blur";
 import { EvilIcons, MaterialIcons, Ionicons } from "@expo/vector-icons";
 import CheckBox from "../components/CheckBox";
-
+import { Success } from "../components/AleartBox";
 import BlurViewNext from "../BlurBoxNew";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
+import { alertPending } from "../store/actions/userActions";
 
 const PaymentScreen = ({ route }) => {
   const [focused, setFocused] = useState("no");
@@ -38,6 +39,7 @@ const PaymentScreen = ({ route }) => {
   const userData = useSelector((state) => state.userReducers.userData);
   const { goBack } = useNavigation();
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  const dispatch = useDispatch();
 
   const handleSelectedItem = (item) => {
     selectedMembers.push(item);
@@ -49,6 +51,12 @@ const PaymentScreen = ({ route }) => {
     } else {
       alert("Enter sender number");
     }
+  };
+
+  const handleProceedToPrev = () => {
+    setModalVisible(!modalVisible);
+    // dispatch(alertPending(true));
+    // setTimeout(() => dispatch(alertPending(false)), 2000);
   };
 
   useEffect(() => {
@@ -71,6 +79,9 @@ const PaymentScreen = ({ route }) => {
 
   return (
     <View style={{ flex: 1, backgroundColor: appColor.white }}>
+      {/* alert box  */}
+      <Success />
+
       <Modal
         animationType="slide"
         transparent={true}
@@ -168,6 +179,31 @@ const PaymentScreen = ({ route }) => {
             </Text>
             <View>{renderParticipants()}</View>
           </View>
+          <View
+            style={{
+              position: "absolute",
+              width: Dimensions.get("window").width,
+              transform: [
+                { translateY: Dimensions.get("window").height - 100 },
+              ],
+              paddingHorizontal: 16,
+            }}
+          >
+            <TouchableOpacity onPress={() => handleProceedToPrev()}>
+              <View
+                style={{
+                  backgroundColor: appColor.green,
+                  height: 50,
+                  width: "100%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 5,
+                }}
+              >
+                <Text style={{ color: appColor.white }}>Proceed</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </BlurViewNext>
       </Modal>
 
@@ -264,9 +300,11 @@ const PaymentScreen = ({ route }) => {
           value={isEnabled}
         />
       </View>
-      <View style={{paddingHorizontal: 16}}>
-        <Text style={{fontSize: 18, color: appColor.gray}}>Please make sure all reciepent numbers Mtn momo number.</Text>
-        <Text style={{fontSize: 18, color: appColor.gray}}></Text>
+      <View style={{ paddingHorizontal: 16 }}>
+        <Text style={{ fontSize: 18, color: appColor.gray }}>
+          Please make sure all reciepent numbers Mtn momo number.
+        </Text>
+        <Text style={{ fontSize: 18, color: appColor.gray }}></Text>
       </View>
       <View
         style={{
@@ -297,9 +335,6 @@ const ListPart = ({ item, handleSelectedItem }) => {
     <Pressable>
       <View
         style={{
-          // borderColor: appColor.black,
-          // borderWidth: StyleSheet.hairlineWidth,
-          // borderBottomWidth: 1,
           borderRadius: 5,
           height: 50,
           alignItems: "center",

@@ -12,6 +12,8 @@ const team2 = require("../assets/icons/team2.png");
 const addteam = require("../assets/icons/addteam.png");
 const logo = require("../assets/icons/logo1.png")
 const mtn = require("../assets/icons/mtn.png")
+const mark = require("../assets/icons/Mark.png")
+
 export default {
   user,
   add,
@@ -20,5 +22,6 @@ export default {
   team2,
   addteam,
   logo,
-  mtn
+  mtn,
+  mark
 };

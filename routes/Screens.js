@@ -18,6 +18,7 @@ import {
   ProfileScreen,
   PaymentScreen,
   LoadingScreen,
+  PaymentTest,
 } from "../screens";
 
 const Stack = createNativeStackNavigator();
@@ -67,7 +68,7 @@ const Screens = () => {
             component={TransactionDetailsScreen}
           />
           <Stack.Screen name="Profile" component={ProfileScreen} />
-          <Stack.Screen name="Payment" component={PaymentScreen} />
+          <Stack.Screen name="Payment" component={PaymentTest} />
         </Stack.Navigator>
       )}
     </NavigationContainer>
