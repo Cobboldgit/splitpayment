@@ -2,7 +2,15 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { appColor, icons } from "../constants";
 
-const Transactionslist = ({onPress, item}) => {
+const Transactionslist = ({ onPress, item }) => {
+  const date = new Date(item.paymentInfo.data.created_at).toLocaleTimeString();
+  const time = date.split(":");
+  const hour = time[0];
+  const minute = time[1];
+  const period = hour > 12 ? "PM" : "AM";
+  const dateStr = `${hour}: ${minute} ${period}`;
+
+  
   return (
     <TouchableOpacity onPress={onPress}>
       <View
@@ -15,7 +23,7 @@ const Transactionslist = ({onPress, item}) => {
           paddingHorizontal: 5,
           borderRadius: 10,
           //   height: 70
-          marginVertical: 10
+          marginVertical: 10,
         }}
       >
         <View
@@ -39,7 +47,7 @@ const Transactionslist = ({onPress, item}) => {
               marginRight: 5,
             }}
           />
-          <Text style={{ fontSize: 18 }}>5</Text>
+          <Text style={{ fontSize: 18 }}>{item.beneficiary.length}</Text>
         </View>
         <View
           style={{
@@ -49,15 +57,20 @@ const Transactionslist = ({onPress, item}) => {
           }}
         >
           <View style={{ paddingHorizontal: 5 }}>
-            <Text style={{ marginBottom: 5 }}>Ghc 2000.00</Text>
-            <Text>10: 15 PM</Text>
+            <Text style={{ marginBottom: 5 }}>
+              Ghc {item.paymentInfo.data.charged_amount}
+            </Text>
+            <Text>{dateStr}</Text>
           </View>
           <View style={{ paddingHorizontal: 5 }}>
             <Text style={{ marginBottom: 5 }}>
               <Text style={{ color: appColor.gray }}>Each: </Text>
-              Ghc 400.00
+              Ghc{" "}
+              {(
+                item.paymentInfo.data.amount_settled / item.beneficiary.length
+              ).toFixed(2)}
             </Text>
-            <Text>{''}</Text>
+            <Text>{""}</Text>
           </View>
         </View>
       </View>

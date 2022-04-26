@@ -2,22 +2,24 @@ import { View, Text } from "react-native";
 import React from "react";
 import { appColor } from "../constants";
 
-const WhoRecievedList = () => {
+const WhoRecievedList = ({name, phone}) => {
   return (
     <View
       style={{
-        backgroundColor: appColor.lightpurple,
         borderRadius: 5,
         height: 50,
-        marginVertical: 10,
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingHorizontal: 10
       }}
     >
-      <Text style={{color: appColor.purple, fontSize: 16}}>Augustine Cobbold</Text>
-      <Text style={{color: appColor.purple, fontSize: 16}}>Ghc 400.00</Text>
+      <View style={{flex: 1}}>
+        <View style={{height: 10, width: 10, borderRadius: 10, borderWidth: 2, borderColor: appColor.gray}}/>
+      </View>
+      <View style={{flex: 9, flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+      <Text style={{color: appColor.black, fontSize: 16}}>{name}</Text>
+      <Text style={{color: appColor.gray, fontSize: 16}}>{phone}</Text>
+      </View>
     </View>
   );
 };

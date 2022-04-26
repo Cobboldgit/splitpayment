@@ -7,12 +7,51 @@ import firebase from "../../firebase/firebase";
 // edit group
 // get all groups
 
-export const alertPending = (boolean) => {
-  return ({
-    type: "PAYMENT_PENDING",
-    payload: boolean
-  })
+export const promptToConfirm = (state) => {
+  return {
+    type: "PROMPT",
+    payload: state
+  }
 }
+
+export const alertError = ({ state, text }) => {
+  return {
+    type: "ALERT_ERROR",
+    payload: {
+      state,
+      text,
+    },
+  };
+};
+
+export const isLoading = (boolean) => {
+  return {
+    type: "LOADING",
+    payload: boolean,
+  };
+};
+
+export const alertPending = (boolean) => {
+  return {
+    type: "PAYMENT_PENDING",
+    payload: boolean,
+  };
+};
+
+export const addTransactionOffline = (data) => {
+  console.log("transdata ACTIONS");
+  return {
+    type: "ADD_TRANS",
+    payload: data,
+  };
+};
+
+export const clearAddedTransactions = () => {
+  console.log("clear");
+  return {
+    type: "CLEAR_TRANS",
+  };
+};
 
 export const addParticipant = (data) => {
   return {
@@ -44,6 +83,7 @@ export const clearAddedParticipant = () => {
 // ============================ create a new group==========================
 export const createGroup = ({ groupName, participant }) => {
   return (dispatch, useState, { getFirestore, getFirebase }) => {
+    dispatch(isLoading(true));
     const userId = getFirebase().auth().currentUser.uid;
     const db = getFirestore();
     const dbRef = db.collection("users").doc(userId);
@@ -59,7 +99,15 @@ export const createGroup = ({ groupName, participant }) => {
       .update({
         groups: firebase.firestore.FieldValue.arrayUnion(data),
       })
-      .then(() => alert("group has been created"));
+      .then(() => {
+        setTimeout(() => {
+          dispatch(isLoading(false));
+        }, 2000);
+      })
+      .catch((error) => {
+        alert(error.message);
+        dispatch(isLoading(false));
+      });
   };
 };
 
@@ -67,6 +115,7 @@ export const createGroup = ({ groupName, participant }) => {
 export const editGroup = ({ participant, groupName, id, transactions }) => {
   return (dispatch, useState, { getFirestore, getFirebase }) => {
     // let data = { groupName, participant, id, tim };
+    dispatch(isLoading(true));
     const userData = useState().userReducers.userData;
     const userId = getFirebase().auth().currentUser.uid;
     const db = getFirestore();
@@ -89,13 +138,20 @@ export const editGroup = ({ participant, groupName, id, transactions }) => {
       .doc(userId)
       .update({ groups: updateGroupData })
       .then(() => {
-        // alert("updated")
+        setTimeout(() => {
+          dispatch(isLoading(false));
+        }, 2000);
+      })
+      .catch((error) => {
+        dispatch(isLoading(false));
+        alert(error.message);
       });
   };
 };
 
-export const deleteGroup = (id ) => {
- return (dispatch, useState, { getFirestore, getFirebase }) => {
+export const deleteGroup = (id) => {
+  return (dispatch, useState, { getFirestore, getFirebase }) => {
+    dispatch(isLoading(true));
     const userData = useState().userReducers.userData;
     const userId = getFirebase().auth().currentUser.uid;
     const db = getFirestore();
@@ -106,14 +162,24 @@ export const deleteGroup = (id ) => {
     dbRef
       .doc(userId)
       .update({ groups: deletedGroup })
-      .then(() => alert("updated"));
+      .then(() => {
+        setTimeout(() => {
+          dispatch(isLoading(false));
+        }, 2000);
+      })
+      .catch((error) => {
+        dispatch(isLoading(false));
+        alert(error.message);
+      });
   };
 };
 
 //================ get groups for current user ====================
 export const getAllGroups = () => {
   return (dispatch, useState, { getFirestore, getFirebase }) => {
-    // Get current user uid
+    dispatch(isLoading(true));
+    // Get current user
+
     const userId = getFirebase().auth().currentUser.uid;
 
     // Firestore
@@ -135,10 +201,50 @@ export const getAllGroups = () => {
             type: "GET_USER_DATA",
             payload: userData,
           });
+
+          setTimeout(() => {
+            dispatch(isLoading(false));
+          }, 2000);
         },
         (error) => {
-          console.log("Error getting document:", error);
+          dispatch(isLoading(false));
+          alert(error.message);
         }
       );
+  };
+};
+
+export const addNewTrans = ({ groupName, id, participants, transaction }) => {
+  return (dispatch, useState, { getFirebase, getFirestore }) => {
+    const userData = useState().userReducers.userData;
+    const userId = getFirebase().auth().currentUser.uid;
+    const db = getFirestore();
+    const dbRef = db.collection("users");
+    let data = {
+      groupName: groupName,
+      id: id,
+      participants: participants,
+      timestamp: Date.now(),
+      transactions: transaction,
+    };
+    const updateGroupData = userData[0].groups.map((item) => {
+      if (item.id === id) {
+        return data;
+      }
+      return item;
+    });
+
+    dbRef
+      .doc(userId)
+      .update({ groups: updateGroupData })
+      .then(() => {
+        setTimeout(() => {
+          dispatch(isLoading(false));
+        }, 2000);
+      })
+      .catch((error) => {
+        dispatch(isLoading(false));
+        alert(error.message);
+      });
   };
 };

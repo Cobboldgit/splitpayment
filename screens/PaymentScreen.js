@@ -59,6 +59,7 @@ const PaymentScreen = ({ route }) => {
     // setTimeout(() => dispatch(alertPending(false)), 2000);
   };
 
+  //toggle 
   useEffect(() => {
     if (isEnabled) {
       setAccountNumber(userData[0]?.phoneNumber);

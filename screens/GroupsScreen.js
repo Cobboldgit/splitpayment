@@ -125,7 +125,7 @@ const GroupsScreen = () => {
         style={{ marginHorizontal: 16 }}
       >
         <View style={{ alignItems: "center", paddingVertical: 20 }}>
-          <Image source={icons.team1} style={{ height: 250, width: 250 }} />
+          {/* <Image source={icons.team1} style={{ height: 250, width: 250 }} /> */}
         </View>
         <View
           style={{

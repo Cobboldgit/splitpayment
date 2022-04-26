@@ -12,17 +12,30 @@ import { appColor, images } from "../constants";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialIcons } from "@expo/vector-icons";
+import { Error } from "../components/AleartBox";
+import { useDispatch } from "react-redux";
+import { alertError } from "../store/actions/userActions";
 
 const PhoneNumberScreen = () => {
   const [focused, setFocused] = useState(false);
   const [phone, setPhone] = useState("");
   const { navigate, goBack } = useNavigation();
+  const dispatch = useDispatch()
 
   const handleContinue = () => {
     if (phone) {
-      navigate("Register", phone);
+      navigate("Register", phone.trim());
     } else {
-      alert("invalid");
+      let open = {
+        state: true,
+        text: "Your phone number is required",
+      };
+      let close = {
+        state: false,
+        text: "",
+      };
+      dispatch(alertError(open));
+      setTimeout(() => dispatch(alertError(close)), 4000);
     }
   };
 
@@ -36,6 +49,7 @@ const PhoneNumberScreen = () => {
         width: Dimensions.get("window").width,
       }}
     >
+      <Error />
       <View
         style={{ height: 50, justifyContent: "center", paddingHorizontal: 16 }}
       >
@@ -68,7 +82,7 @@ const PhoneNumberScreen = () => {
               Create account
             </Text>
           </View>
-          <View style={{ height: 110, justifyContent: "space-between" }}>
+          <View style={{ height: 80, justifyContent: "space-between" }}>
             <Text style={{ color: appColor.black, fontSize: 16 }}>
               Phone number
             </Text>
@@ -88,7 +102,7 @@ const PhoneNumberScreen = () => {
                 borderWidth: 1,
                 borderBottomWidth: 2,
                 borderRadius: 5,
-                height: 70,
+                height: 50,
                 paddingHorizontal: 20,
               }}
             />

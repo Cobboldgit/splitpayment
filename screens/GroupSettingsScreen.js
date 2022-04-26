@@ -15,16 +15,19 @@ import { appColor, icons } from "../constants";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addParticipant,
+  alertError,
   clearAddedParticipant,
   deleteGroup,
   editGroup,
   editParticipant,
+  promptToConfirm,
 } from "../store/actions/userActions";
 import AddedParticipant from "../components/AddedParticipant";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import ContactList from "../components/ContactList";
+import { Prompt } from "../components/AleartBox";
 
 const GroupSettingsScreen = ({ route }) => {
   const item = route.params;
@@ -40,7 +43,12 @@ const GroupSettingsScreen = ({ route }) => {
   const [phone, setPhone] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const confirmPrompt = useSelector(
+    (state) => state.userReducers.confirmPrompt
+  );
+
   const addPartInputFadeIn = useRef(new Animated.Value(0)).current;
+
   const modalHeight = useRef(
     new Animated.Value(Dimensions.get("screen").height / 2)
   ).current;
@@ -107,6 +115,8 @@ const GroupSettingsScreen = ({ route }) => {
       setSelectedItem(null);
     }
   };
+
+  // save edited data
   const handleSave = () => {
     let data = {
       groupName,
@@ -122,10 +132,25 @@ const GroupSettingsScreen = ({ route }) => {
     setGroupName("New group");
     goBack();
   };
+
+  //delete group
   const handleDeleteGroup = () => {
-    let id = item.id
-    dispatch(deleteGroup(id));
-    navigate("Groups")
+    let open = {
+      state: true,
+      text: "",
+    };
+    dispatch(alertError(open));
+    if (confirmPrompt) {
+      let id = item.id;
+      // dispatch(deleteGroup(id));
+      // navigate("Groups");
+      dispatch(promptToConfirm(false));
+      let open = {
+        state: false,
+        text: "",
+      };
+      dispatch(alertError(open));
+    }
   };
 
   return (
@@ -135,6 +160,12 @@ const GroupSettingsScreen = ({ route }) => {
         flex: 1,
       }}
     >
+      <Prompt
+        id={item.id}
+        message={
+          "Do you want to delete this group? If you delete this group any data this group contains will be lost foverer"
+        }
+      />
       <Modal
         animated={true}
         animationType="slide"
@@ -176,43 +207,6 @@ const GroupSettingsScreen = ({ route }) => {
                     color={appColor.darkgray}
                   />
                 </TouchableOpacity>
-              </View>
-              <View style={{ paddingHorizontal: 20, flexDirection: "row" }}>
-                <View
-                  style={{
-                    height: 50,
-                    backgroundColor: appColor.white,
-                    borderColor: appColor.gray,
-                    borderLeftWidth: StyleSheet.hairlineWidth,
-                    borderTopLeftRadius: 25,
-                    borderBottomLeftRadius: 25,
-                    borderTopWidth: StyleSheet.hairlineWidth,
-                    borderBottomWidth: StyleSheet.hairlineWidth,
-                    width: "15%",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <MaterialIcons
-                    name="search"
-                    size={24}
-                    color={appColor.darkgray}
-                  />
-                </View>
-                <TextInput
-                  placeholder="Search contact"
-                  style={{
-                    height: 50,
-                    backgroundColor: appColor.white,
-                    borderTopRightRadius: 25,
-                    borderBottomRightRadius: 25,
-                    borderTopWidth: StyleSheet.hairlineWidth,
-                    borderBottomWidth: StyleSheet.hairlineWidth,
-                    borderRightWidth: StyleSheet.hairlineWidth,
-                    borderColor: appColor.gray,
-                    width: "85%",
-                  }}
-                />
               </View>
               <ContactList handleSelectedItem={handleSelectedItem} />
             </View>

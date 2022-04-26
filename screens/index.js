@@ -11,6 +11,7 @@ import ProfileScreen from "./ProfileScreen";
 import PaymentScreen from "./PaymentScreen";
 import LoadingScreen from "./LoadingScreen";
 import PaymentTest from "./PaymentTest";
+import CreateGroupPayment from "./CreateGroupPayment";
 export {
   PhoneNumberScreen,
   RegisterScreen,
@@ -24,5 +25,6 @@ export {
   ProfileScreen,
   PaymentScreen,
   LoadingScreen,
-  PaymentTest
+  PaymentTest,
+  CreateGroupPayment
 };

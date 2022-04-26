@@ -89,9 +89,27 @@ const AddGroupScreen = () => {
   // add participant
   const handleSubmitAddPart = () => {
     if ((phone && nickName) || selectedItem) {
+      let SelectedItemResult;
+      let phoneResult;
+      if (selectedItem) {
+        const regex = /(?!\d) +(?=\d)/g;
+        const str = selectedItem?.phoneNumber.toString();
+        const subst = ``;
+        // The substituted value will be contained in the result variable
+        SelectedItemResult = str.replace(regex, subst);
+      }
+
+      if (phone) {
+        const regex = /(?!\d) +(?=\d)/g;
+        const str = phone.toString();
+        const subst = ``;
+        // The substituted value will be contained in the result variable
+        phoneResult = str.replace(regex, subst);
+      }
+
       let data = {
         nickName: nickName || selectedItem?.name,
-        phone: phone || selectedItem?.phoneNumber,
+        phone: phoneResult || SelectedItemResult,
       };
       dispatch(addParticipant(data));
       setAddPart(false);
@@ -139,13 +157,7 @@ const AddGroupScreen = () => {
           setModalVisible(!modalVisible);
         }}
       >
-        <TouchableWithoutFeedback
-          onPress={() => {
-            setModalVisible(!modalVisible);
-            modalHeight.setValue(Dimensions.get("screen").height / 2);
-          }}
-          style={{ flex: 1 }}
-        >
+        <TouchableWithoutFeedback style={{ flex: 1 }}>
           <View style={{ flex: 1, justifyContent: "flex-end" }}>
             <View
               style={{
@@ -172,52 +184,14 @@ const AddGroupScreen = () => {
                   />
                 </TouchableOpacity>
               </View>
-              <View style={{ paddingHorizontal: 20, flexDirection: "row" }}>
-                <View
-                  style={{
-                    height: 50,
-                    backgroundColor: appColor.white,
-                    borderColor: appColor.gray,
-                    borderLeftWidth: StyleSheet.hairlineWidth,
-                    borderTopLeftRadius: 25,
-                    borderBottomLeftRadius: 25,
-                    borderTopWidth: StyleSheet.hairlineWidth,
-                    borderBottomWidth: StyleSheet.hairlineWidth,
-                    width: "15%",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <MaterialIcons
-                    name="search"
-                    size={24}
-                    color={appColor.darkgray}
-                  />
-                </View>
-                <TextInput
-                  placeholder="Search contact"
-                  style={{
-                    height: 50,
-                    backgroundColor: appColor.white,
-                    borderTopRightRadius: 25,
-                    borderBottomRightRadius: 25,
-                    borderTopWidth: StyleSheet.hairlineWidth,
-                    borderBottomWidth: StyleSheet.hairlineWidth,
-                    borderRightWidth: StyleSheet.hairlineWidth,
-                    borderColor: appColor.gray,
-                    width: "85%",
-                  }}
-                />
-              </View>
+
               <ContactList handleSelectedItem={handleSelectedItem} />
             </View>
           </View>
         </TouchableWithoutFeedback>
       </Modal>
       {/* header  */}
-      <View
-        style={{ height: 50, justifyContent: "center" }}
-      >
+      <View style={{ height: 50, justifyContent: "center" }}>
         <View
           style={{
             flexDirection: "row",
@@ -293,7 +267,7 @@ const AddGroupScreen = () => {
                   paddingHorizontal: 20,
                   fontSize: 16,
                   backgroundColor: appColor.lighterPink,
-                  color: appColor.inputText
+                  color: appColor.inputText,
                   // shadowColor: "#000",
                   // shadowOffset: {
                   //   width: 0,
@@ -368,7 +342,7 @@ const AddGroupScreen = () => {
                         color: appColor.inputText,
                         borderRadius: 5,
                         height: 50,
-                        paddingHorizontal: 20
+                        paddingHorizontal: 20,
                       }}
                     />
                   </View>
@@ -404,14 +378,14 @@ const AddGroupScreen = () => {
                       style={{
                         flex: 1,
                         alignItems: "center",
-                        justifyContent: 'center',
+                        justifyContent: "center",
                         backgroundColor: appColor.lighterPink,
                         color: appColor.inputText,
                         height: 50,
                         paddingVertical: 7,
                         paddingHorizontal: 20,
                         borderTopRightRadius: 5,
-                        borderBottomRightRadius: 5
+                        borderBottomRightRadius: 5,
                       }}
                     >
                       <TouchableOpacity
@@ -448,31 +422,6 @@ const AddGroupScreen = () => {
               <AddedParticipant />
             </View>
           </View>
-
-          {/* create group button  */}
-          {/* <View
-            style={{
-              paddingHorizontal: 16,
-              marginBottom: 20,
-            }}
-          >
-            <TouchableOpacity onPress={() => handleCreateGroup()}>
-              <View
-                style={{
-                  backgroundColor: appColor.lightPink,
-                  height: 50,
-                  width: "100%",
-                  borderRadius: 5,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Text style={{ color: appColor.white, fontSize: 16 }}>
-                  Create Group
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View> */}
         </ScrollView>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
@@ -480,3 +429,72 @@ const AddGroupScreen = () => {
 };
 
 export default AddGroupScreen;
+
+// {
+//   /* create group button  */
+// }
+// {
+//   /* <View
+//             style={{
+//               paddingHorizontal: 16,
+//               marginBottom: 20,
+//             }}
+//           >
+//             <TouchableOpacity onPress={() => handleCreateGroup()}>
+//               <View
+//                 style={{
+//                   backgroundColor: appColor.lightPink,
+//                   height: 50,
+//                   width: "100%",
+//                   borderRadius: 5,
+//                   justifyContent: "center",
+//                   alignItems: "center",
+//                 }}
+//               >
+//                 <Text style={{ color: appColor.white, fontSize: 16 }}>
+//                   Create Group
+//                 </Text>
+//               </View>
+//             </TouchableOpacity>
+//           </View> */
+// }
+
+// {
+//   /* <View style={{ paddingHorizontal: 20, flexDirection: "row" }}>
+//                 <View
+//                   style={{
+//                     height: 50,
+//                     backgroundColor: appColor.white,
+//                     borderColor: appColor.gray,
+//                     borderLeftWidth: StyleSheet.hairlineWidth,
+//                     borderTopLeftRadius: 25,
+//                     borderBottomLeftRadius: 25,
+//                     borderTopWidth: StyleSheet.hairlineWidth,
+//                     borderBottomWidth: StyleSheet.hairlineWidth,
+//                     width: "15%",
+//                     justifyContent: "center",
+//                     alignItems: "center",
+//                   }}
+//                 >
+//                   <MaterialIcons
+//                     name="search"
+//                     size={24}
+//                     color={appColor.darkgray}
+//                   />
+//                 </View>
+//                 <TextInput
+//                   placeholder="Search contact"
+//                   style={{
+//                     height: 50,
+//                     backgroundColor: appColor.white,
+//                     borderTopRightRadius: 25,
+//                     borderBottomRightRadius: 25,
+//                     borderTopWidth: StyleSheet.hairlineWidth,
+//                     borderBottomWidth: StyleSheet.hairlineWidth,
+//                     borderRightWidth: StyleSheet.hairlineWidth,
+//                     borderColor: appColor.gray,
+//                     width: "85%",
+//                   }}
+//                 />
+//               </View> */
+// }

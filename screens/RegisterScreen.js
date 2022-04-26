@@ -6,15 +6,21 @@ import {
   TouchableOpacity,
   ImageBackground,
   StyleSheet,
+  Dimensions,
+  Image
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
-import { appColor, images } from "../constants";
+import { appColor, images, icons } from "../constants";
 import AppButton from "../components/AppButton";
 import { useNavigation } from "@react-navigation/native";
-import { useDispatch } from "react-redux";
-import { createUserWithEmail } from "../store/actions/authActions";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createUserWithEmail,
+  signInWithGoogle,
+} from "../store/actions/authActions";
 import { LinearGradient } from "expo-linear-gradient";
+import Loading from "../components/Loading";
 
 const RegisterScreen = ({ route }) => {
   const [focused, setFocused] = useState("no");
@@ -24,8 +30,10 @@ const RegisterScreen = ({ route }) => {
   const [password, setPassword] = useState("");
   const { navigate, goBack } = useNavigation();
   const disptach = useDispatch();
-
+  const loadingState = useSelector((state) => state.userReducers.loading);
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const phone = route.params;
+
   useEffect(() => {
     if (nickName && password && email) {
       setDisabled(false);
@@ -37,15 +45,12 @@ const RegisterScreen = ({ route }) => {
   const handleRegister = async () => {
     if (nickName && password && email) {
       let data = {
-        nickName,
-        password,
-        email,
+        nickName: nickName.trim(),
+        password: password.trim(),
+        email: email.toLowerCase().trim(),
         phone,
       };
       disptach(createUserWithEmail(data));
-      setNickName('')
-      setEmail('')
-      password('')
     }
   };
 
@@ -54,6 +59,7 @@ const RegisterScreen = ({ route }) => {
       source={images.gradientBack}
       style={{ flex: 1, backgroundColor: appColor.white }}
     >
+      {loadingState ? <Loading /> : null}
       <View
         style={{ height: 50, justifyContent: "center", paddingHorizontal: 16 }}
       >
@@ -91,7 +97,7 @@ const RegisterScreen = ({ route }) => {
               Create account
             </Text>
           </View>
-          <View style={{ height: 350, justifyContent: "space-between" }}>
+          <View style={{ height: 250, justifyContent: "space-between" }}>
             <Text
               style={{
                 color: appColor.black,
@@ -119,7 +125,7 @@ const RegisterScreen = ({ route }) => {
                 borderWidth: 1,
                 borderBottomWidth: 2,
                 borderRadius: 5,
-                height: 70,
+                height: 50,
                 paddingHorizontal: 20,
                 fontSize: 16,
               }}
@@ -151,7 +157,7 @@ const RegisterScreen = ({ route }) => {
                 borderWidth: 1,
                 borderBottomWidth: 2,
                 borderRadius: 5,
-                height: 70,
+                height: 50,
                 paddingHorizontal: 20,
               }}
             />
@@ -163,100 +169,93 @@ const RegisterScreen = ({ route }) => {
             >
               Password
             </Text>
-            <TextInput
-              value={password}
-              onChangeText={(value) => setPassword(value)}
-              onFocus={(e) => {
-                setFocused("password");
-              }}
-              onBlur={() => {
-                setFocused("no");
-              }}
-              placeholder="Enter your password"
-              placeholderTextColor={
-                focused === "password" ? appColor.black : appColor.gray
-              }
-              style={{
-                borderColor:
-                  focused === "password" ? appColor.black : appColor.gray,
-                borderWidth: 1,
-                borderBottomWidth: 2,
-                borderRadius: 5,
-                height: 70,
-                paddingHorizontal: 20,
-              }}
-            />
-          </View>
-
-          {/* sigin with google  */}
-          {focused === "no" && !nickName && !email && !password ? (
-            <View style={{ height: 150, justifyContent: "center" }}>
+            <View style={{ flexDirection: "row" }}>
+              <TextInput
+                secureTextEntry={!passwordVisible}
+                value={password}
+                onChangeText={(value) => setPassword(value)}
+                onFocus={(e) => {
+                  setFocused("password");
+                }}
+                onBlur={() => {
+                  setFocused("no");
+                }}
+                placeholder="Enter your password"
+                placeholderTextColor={appColor.gray}
+                style={{
+                  borderColor:
+                    focused === "password" || password
+                      ? appColor.black
+                      : appColor.gray,
+                  height: 50,
+                  paddingLeft: 20,
+                  fontSize: 16,
+                  borderTopLeftRadius: 5,
+                  borderBottomLeftRadius: 5,
+                  borderLeftWidth: 1,
+                  borderBottomWidth: 2,
+                  borderTopWidth: 1,
+                  flex: 9,
+                }}
+              />
               <View
                 style={{
-                  flexDirection: "row",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <View
-                  style={{
-                    height: 1,
-                    backgroundColor: appColor.gray,
-                    width: 100,
-                  }}
-                />
-                <Text style={{ color: appColor.gray, marginHorizontal: 10 }}>
-                  Or
-                </Text>
-                <View
-                  style={{
-                    height: 1,
-                    backgroundColor: appColor.gray,
-                    width: 100,
-                  }}
-                />
-              </View>
-              <TouchableOpacity
-                style={{
                   height: 50,
+                  borderRightWidth: 1,
+                  borderTopRightRadius: 5,
+                  borderBottomRightRadius: 5,
+                  borderTopWidth: 1,
+                  borderBottomWidth: 2,
+                  paddingRight: 16,
+                  borderColor:
+                    focused === "password" || password
+                      ? appColor.black
+                      : appColor.gray,
                   justifyContent: "center",
                   alignItems: "center",
-                  backgroundColor: appColor.red,
-                  flexDirection: "row",
-                  borderRadius: 10,
-                  marginTop: 20,
+                  flex: 1,
                 }}
               >
-                <AntDesign name="google" size={20} color={appColor.white} />
-                <Text style={{ color: appColor.white, marginLeft: 5 }}>
-                  Sign in with Google
-                </Text>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => setPasswordVisible(!passwordVisible)}
+                  style={{ marginTop: 10 }}
+                >
+                  <Image
+                    source={passwordVisible ? icons.eye : icons.disabledEye}
+                    style={{
+                      width: 22,
+                      height: 22,
+                      top: -5,
+                      tintColor: appColor.black,
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
-          ) : (
-            // register button
-            <View
-              style={{
-                height: 100,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
+          </View>
+
+          {/* // register button */}
+          <View
+            style={{
+              height: 100,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <TouchableOpacity
+              disabled={disabled}
+              onPress={() => handleRegister()}
             >
-              <TouchableOpacity
-                disabled={disabled}
-                onPress={() => handleRegister()}
-              >
-                <AppButton
-                  title="Register"
-                  color={!disabled ? appColor.white : appColor.purple}
-                  backgroundColor={{
-                    start: !disabled ? appColor.black : appColor.lightpurple,
-                    end: !disabled ? appColor.black : appColor.lightpurple,
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
-          )}
+              <AppButton
+                title="Register"
+                color={!disabled ? appColor.white : appColor.purple}
+                backgroundColor={{
+                  start: !disabled ? appColor.black : appColor.lightpurple,
+                  end: !disabled ? appColor.black : appColor.lightpurple,
+                }}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
     </ImageBackground>

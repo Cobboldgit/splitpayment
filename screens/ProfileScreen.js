@@ -15,45 +15,20 @@ import { useNavigation } from "@react-navigation/native";
 import { signOut } from "../store/actions/authActions";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialIcons, Ionicons } from "@expo/vector-icons";
+import Loading from "../components/Loading";
 
 const ProfileScreen = () => {
   const dispatch = useDispatch();
   const { goBack } = useNavigation();
   const userData = useSelector((state) => state.userReducers.userData);
+  const loadingState = useSelector((state) => state.userReducers.Loading);
+
   const handleSignOut = () => {
     dispatch(signOut());
   };
   return (
     <View style={{ flex: 1, backgroundColor: appColor.white }}>
-      {/* header */}
-      {/* <View style={{ height: 50, justifyContent: "center" }}>
-        <View
-          style={{
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexDirection: "row",
-            height: "100%",
-            paddingHorizontal: 16,
-            backgroundColor: appColor.lightPink,
-          }}
-        >
-          <View style={{ flex: 1 }}>
-            <TouchableOpacity onPress={() => goBack()}>
-              <MaterialIcons
-                name="arrow-back-ios"
-                color={appColor.white}
-                size={20}
-              />
-            </TouchableOpacity>
-          </View>
-          <View style={{ flex: 1, alignItems: "center" }}>
-            <Text style={{ color: appColor.white, fontSize: 16 }}>Profile</Text>
-          </View>
-          <View style={{ flex: 1 }}></View>
-        </View>
-      </View> */}
-      {/* header end  */}
-
+      {loadingState ? <Loading /> : null}
       {/* body  */}
       <ScrollView
         stickyHeaderIndices={[0]}
@@ -133,10 +108,10 @@ const ProfileScreen = () => {
                 <Text
                   style={{ fontSize: 20, fontWeight: "bold", marginBottom: 5 }}
                 >
-                  {userData[0].displayName}
+                  {userData[0]?.displayName}
                 </Text>
                 <Text style={{ fontSize: 18, color: appColor.darkgray }}>
-                  {userData[0].email}
+                  {userData[0]?.email}
                 </Text>
               </View>
               <View style={{ flex: 1 }}>

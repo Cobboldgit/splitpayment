@@ -43,7 +43,7 @@ const AddedParticipant = () => {
   };
 
   return (
-    <View>
+    <View style={{marginBottom: 100}}>
       {participant.map((item, index) => (
         <View
           key={index}
@@ -64,7 +64,7 @@ const AddedParticipant = () => {
             },
             shadowOpacity: 0,
             shadowRadius: 4.65,
-            elevation: 8,
+            elevation: 2,
           }}
         >
           <View>
