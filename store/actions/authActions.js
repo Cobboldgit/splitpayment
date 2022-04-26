@@ -41,6 +41,7 @@ export const createUserWithEmail = ({ email, password, nickName, phone }) => {
         });
       })
       .catch((error) => {
+        dispatch(isLoading(false));
         let open;
         let close;
         switch (error.code) {
@@ -190,6 +191,7 @@ export const signOut = () => {
       })
       .catch((err) => {
         dispatch(isLoading(false));
+       alert(err.message) 
       });
   };
 };

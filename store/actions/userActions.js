@@ -39,7 +39,6 @@ export const alertPending = (boolean) => {
 };
 
 export const addTransactionOffline = (data) => {
-  console.log("transdata ACTIONS");
   return {
     type: "ADD_TRANS",
     payload: data,
@@ -47,7 +46,6 @@ export const addTransactionOffline = (data) => {
 };
 
 export const clearAddedTransactions = () => {
-  console.log("clear");
   return {
     type: "CLEAR_TRANS",
   };

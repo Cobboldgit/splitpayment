@@ -54,7 +54,6 @@ const PaymentTest = ({ route }) => {
 
   useEffect(() => {}, []);
 
-  console.log(amountToSend);
   //beneficiaries data
   useEffect(() => {
     selectedMembers.map((item) => {
@@ -74,7 +73,6 @@ const PaymentTest = ({ route }) => {
   // on redirect after payment
   const handleOnRedirect = (data) => {
     setRedirectData(data);
-    console.log("onredirect-=== > ", data);
     if (data.status === "successful") {
       axios({
         method: "get",
@@ -84,7 +82,6 @@ const PaymentTest = ({ route }) => {
         },
       })
         .then((res) => {
-          console.log("verify link ==> ", res.data);
           let data = res.data;
           let sendToTransData = {
             title: remark,
@@ -107,7 +104,6 @@ const PaymentTest = ({ route }) => {
           }
         })
         .catch((err) => {
-          console.log("verify error ==> ", err);
           setTimeout(() => {
             setRetryVerify(true);
           }, 3000);
@@ -118,7 +114,6 @@ const PaymentTest = ({ route }) => {
   //retry verify
   useEffect(() => {
     if (retryVerify) {
-      console.log("retrying");
       handleOnRedirect(redirectData);
     }
   }, [retryVerify]);

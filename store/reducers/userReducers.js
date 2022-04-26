@@ -5,7 +5,7 @@ const initialState = {
   paymentPending: false,
   loading: false,
   alertError: null,
-  confirmPrompt: null
+  confirmPrompt: null,
 };
 
 const userReducers = (state = initialState, { type, payload }) => {
@@ -28,7 +28,6 @@ const userReducers = (state = initialState, { type, payload }) => {
       });
       return { ...state, participant: filterParticipant };
     case "PAYMENT_PENDING":
-      console.log(state.paymentPending);
       return { ...state, paymentPending: payload };
     case "ADD_TRANS":
       return { ...state, transactions: [...state.transactions, payload] };

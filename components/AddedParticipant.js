@@ -43,28 +43,19 @@ const AddedParticipant = () => {
   };
 
   return (
-    <View style={{marginBottom: 100}}>
+    <View style={{marginBottom: 100, marginTop: 20}}>
       {participant.map((item, index) => (
         <View
           key={index}
           style={{
             // borderColor: appColor.black,
             // borderBottomWidth: StyleSheet.hairlineWidth,
-            paddingVertical: 20,
+            paddingVertical: 10,
             paddingHorizontal: 10,
-            marginVertical: 10,
             flexDirection: "row",
             justifyContent: "space-between",
             borderRadius: 5,
             backgroundColor: appColor.white,
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 4,
-            },
-            shadowOpacity: 0,
-            shadowRadius: 4.65,
-            elevation: 2,
           }}
         >
           <View>

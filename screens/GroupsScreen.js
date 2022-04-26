@@ -34,6 +34,7 @@ const GroupsScreen = () => {
   const auth = useSelector((state) => state.firebaseReducer.auth);
   const [refreshing, setRefreshing] = useState(false);
 
+
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));

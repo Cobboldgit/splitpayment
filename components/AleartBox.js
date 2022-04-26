@@ -17,7 +17,6 @@ import { alertError, deleteGroup, promptToConfirm } from "../store/actions/userA
 import { useNavigation } from "@react-navigation/native";
 
 const ModalPoup = ({ visible, children }) => {
-  console.log(visible);
   const [showModal, setShowModal] = React.useState(visible);
   const scaleValue = React.useRef(new Animated.Value(0)).current;
   React.useEffect(() => {

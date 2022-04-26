@@ -140,7 +140,7 @@ const ProfileScreen = () => {
             icon={
               <MaterialIcons name="payments" color={appColor.white} size={30} />
             }
-            onPress={() => alert("payment")}
+            onPress={() => {}}
           />
           <ProfileOption
             title={"Logout"}

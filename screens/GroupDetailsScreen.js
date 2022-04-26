@@ -21,7 +21,11 @@ import BlurViewNext from "../BlurBoxNew";
 import { Success } from "../components/AleartBox";
 import CheckBox from "../components/CheckBox";
 import { useDispatch } from "react-redux";
-import { addNewTrans, addTransactionOffline, clearAddedTransactions } from "../store/actions/userActions";
+import {
+  addNewTrans,
+  addTransactionOffline,
+  clearAddedTransactions,
+} from "../store/actions/userActions";
 
 const GroupDetailsScreen = ({ route }) => {
   const item = route.params;
@@ -31,16 +35,14 @@ const GroupDetailsScreen = ({ route }) => {
   const [amount, setAmount] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedMembers, setSelectedMembers] = useState([]);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(clearAddedTransactions())
-      item?.transactions.forEach((item) => {
-        dispatch(addTransactionOffline(item))
-      })
-  },[])
-
-
+    dispatch(clearAddedTransactions());
+    item?.transactions.forEach((item) => {
+      dispatch(addTransactionOffline(item));
+    });
+  }, []);
 
   // get the last time data was sent to database
   let startDate = new Date(item?.timestamp);
@@ -69,7 +71,6 @@ const GroupDetailsScreen = ({ route }) => {
       ? `Synced ${secs} seconds ago`
       : `not Synced`;
 
-
   // called when a list is checked
   const handleSelectedItem = (item) => {
     selectedMembers.push(item);
@@ -95,21 +96,20 @@ const GroupDetailsScreen = ({ route }) => {
 
   // process to pay
   const ToPaymentScreen = () => {
-   if (remark && amount && selectedMembers) {
-    let data = {
-      remark,
-      selectedMembers,
-      userData: item,
-      amount: +amount,
-    };
-    setModalVisible(!modalVisible);
-    setAmount('')
-    setRemark(''),
-    setSelectedMembers([])
-    navigate("Payment", data);
-   } else {
-     alert("Remark, amount and beneficiary are required")
-   }
+    if (remark && amount && selectedMembers) {
+      let data = {
+        remark,
+        selectedMembers,
+        userData: item,
+        amount: +amount,
+      };
+      setModalVisible(!modalVisible);
+      setAmount("");
+      setRemark(""), setSelectedMembers([]);
+      navigate("Payment", data);
+    } else {
+      alert("Remark, amount and beneficiary are required");
+    }
   };
 
   // list participants to be check
@@ -143,137 +143,139 @@ const GroupDetailsScreen = ({ route }) => {
         }}
       >
         <BlurViewNext tint={"default"} intensity={320} style={{ flex: 1 }}>
-          <View style={{ paddingHorizontal: 20, paddingVertical: 40 }}>
-            <TouchableOpacity
-              onPress={() => {
-                setModalVisible(!modalVisible);
-                setSelectedMembers([]);
-                setRemark("");
-              }}
-            >
-              <EvilIcons name="close" size={24} color="black" />
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              // justifyContent: "space-between",
-              // height: 165,
-              paddingHorizontal: 20,
-            }}
-          >
-            <Text
-              style={{
-                color: appColor.black,
-                fontSize: 16,
-                marginVertical: 10,
-              }}
-            >
-              Remark
-            </Text>
-            <TextInput
-              value={remark}
-              onChangeText={(value) => setRemark(value)}
-              onFocus={(e) => {
-                setFocused("remark");
-              }}
-              onBlur={() => {
-                setFocused("no");
-              }}
-              placeholder="Enter Remark"
-              placeholderTextColor={
-                focused === "remark" ? appColor.black : appColor.gray
-              }
-              style={{
-                borderColor:
-                  focused === "remark" ? appColor.black : appColor.gray,
-                borderWidth: StyleSheet.hairlineWidth,
-                borderBottomWidth: 1,
-                borderRadius: 5,
-                height: 50,
-                paddingHorizontal: 20,
-                fontSize: 16,
-              }}
-            />
-            <Text
-              style={{
-                color: appColor.black,
-                fontSize: 16,
-                marginVertical: 10,
-              }}
-            >
-              Amount
-            </Text>
-            <TextInput
-              value={amount}
-              onChangeText={(value) => setAmount(value)}
-              onFocus={(e) => {
-                setFocused("amount");
-              }}
-              onBlur={() => {
-                setFocused("no");
-              }}
-              placeholder="Enter Amount"
-              placeholderTextColor={
-                focused === "amount" ? appColor.black : appColor.gray
-              }
-              style={{
-                borderColor:
-                  focused === "amount" ? appColor.black : appColor.gray,
-                borderWidth: StyleSheet.hairlineWidth,
-                borderBottomWidth: 1,
-                borderRadius: 5,
-                height: 50,
-                paddingHorizontal: 20,
-                fontSize: 16,
-              }}
-            />
-            {focused === "amount" ? (
-              <View style={{ marginTop: 10 }}>
-                <Text style={{ color: appColor.red }}>
-                  NB: The amount you enter will me multiple by the number of
-                  beneficiaries you select from here.
-                </Text>
-              </View>
-            ) : (
-              <View></View>
-            )}
-          </View>
-          <View style={{ paddingHorizontal: 20, marginTop: 10 }}>
-            <Text
-              style={{
-                color: appColor.black,
-                fontSize: 16,
-              }}
-            >
-              Who should recieve?
-            </Text>
-            <View>{renderParticipants()}</View>
-          </View>
-          <View
-            style={{
-              position: "absolute",
-              width: Dimensions.get("window").width,
-              transform: [
-                { translateY: Dimensions.get("window").height - 100 },
-              ],
-              paddingHorizontal: 16,
-            }}
-          >
-            <TouchableOpacity onPress={() => ToPaymentScreen()}>
-              <View
-                style={{
-                  backgroundColor: appColor.green,
-                  height: 50,
-                  width: "100%",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: 5,
+          <ScrollView>
+            <View style={{ paddingHorizontal: 20, paddingVertical: 40 }}>
+              <TouchableOpacity
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                  setSelectedMembers([]);
+                  setRemark("");
                 }}
               >
-                <Text style={{ color: appColor.white }}>Proceed</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
+                <EvilIcons name="close" size={24} color="black" />
+              </TouchableOpacity>
+            </View>
+            <View
+              style={{
+                // justifyContent: "space-between",
+                // height: 165,
+                paddingHorizontal: 20,
+              }}
+            >
+              <Text
+                style={{
+                  color: appColor.black,
+                  fontSize: 16,
+                  marginVertical: 10,
+                }}
+              >
+                Remark
+              </Text>
+              <TextInput
+                value={remark}
+                onChangeText={(value) => setRemark(value)}
+                onFocus={(e) => {
+                  setFocused("remark");
+                }}
+                onBlur={() => {
+                  setFocused("no");
+                }}
+                placeholder="Enter Remark"
+                placeholderTextColor={
+                  focused === "remark" ? appColor.black : appColor.gray
+                }
+                style={{
+                  borderColor:
+                    focused === "remark" ? appColor.black : appColor.gray,
+                  borderWidth: StyleSheet.hairlineWidth,
+                  borderBottomWidth: 1,
+                  borderRadius: 5,
+                  height: 50,
+                  paddingHorizontal: 20,
+                  fontSize: 16,
+                }}
+              />
+              <Text
+                style={{
+                  color: appColor.black,
+                  fontSize: 16,
+                  marginVertical: 10,
+                }}
+              >
+                Amount
+              </Text>
+              <TextInput
+                value={amount}
+                onChangeText={(value) => setAmount(value)}
+                onFocus={(e) => {
+                  setFocused("amount");
+                }}
+                onBlur={() => {
+                  setFocused("no");
+                }}
+                placeholder="Enter Amount"
+                placeholderTextColor={
+                  focused === "amount" ? appColor.black : appColor.gray
+                }
+                style={{
+                  borderColor:
+                    focused === "amount" ? appColor.black : appColor.gray,
+                  borderWidth: StyleSheet.hairlineWidth,
+                  borderBottomWidth: 1,
+                  borderRadius: 5,
+                  height: 50,
+                  paddingHorizontal: 20,
+                  fontSize: 16,
+                }}
+              />
+              {focused === "amount" ? (
+                <View style={{ marginTop: 10 }}>
+                  <Text style={{ color: appColor.red }}>
+                    NB: The amount you enter will me multiple by the number of
+                    beneficiaries you select from here.
+                  </Text>
+                </View>
+              ) : (
+                <View></View>
+              )}
+            </View>
+            <View style={{ paddingHorizontal: 20, marginTop: 10 }}>
+              <Text
+                style={{
+                  color: appColor.black,
+                  fontSize: 16,
+                }}
+              >
+                Who should recieve?
+              </Text>
+              <View>{renderParticipants()}</View>
+            </View>
+          </ScrollView>
+            <View
+              style={{
+                position: "absolute",
+                width: Dimensions.get("window").width,
+                transform: [
+                  { translateY: Dimensions.get("window").height - 100 },
+                ],
+                paddingHorizontal: 16,
+              }}
+            >
+              <TouchableOpacity onPress={() => ToPaymentScreen()}>
+                <View
+                  style={{
+                    backgroundColor: appColor.green,
+                    height: 50,
+                    width: "100%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: 5,
+                  }}
+                >
+                  <Text style={{ color: appColor.white }}>Proceed</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
         </BlurViewNext>
       </Modal>
 
@@ -397,9 +399,9 @@ const GroupDetailsScreen = ({ route }) => {
               return (
                 <View key={index}>
                   <Transactionslist
-                  item={item}
-                  onPress={() => handleTransactionPressed(item)}
-                />
+                    item={item}
+                    onPress={() => handleTransactionPressed(item)}
+                  />
                 </View>
               );
             })

@@ -5,8 +5,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  Platform
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { appColor } from "../constants";
 import {MaterialIcons} from "@expo/vector-icons"
@@ -15,6 +16,8 @@ const ContactList = ({ handleSelectedItem }) => {
   const [search, setSearch] = useState("");
   const contacts = useSelector((state) => state.contactsReducer.contacts);
   const [filteredContacts, setFilterContacts] = useState(contacts);
+
+  
 
   const searchFilterFunction = (text) => {
     // Check if searched text is not blank
@@ -36,6 +39,8 @@ const ContactList = ({ handleSelectedItem }) => {
       setSearch(text);
     }
   };
+
+ 
 
   return (
     <View style={{ flex: 1 }}>
@@ -127,7 +132,7 @@ const ContactCard = ({ item, onPress }) => {
           }}
         >
           <Text style={{ fontSize: 16, color: appColor.white }}>
-            {item?.name[0]}
+            {item?.name ? item?.name[0]:null}
           </Text>
         </View>
       </View>

@@ -5,6 +5,7 @@ import React from "react";
 
 const GroupCard = ({ onPress, groupName, participants, id, timestamp }) => {
 
+
   return (
     <TouchableOpacity
       activeOpacity={0.7}
@@ -62,9 +63,9 @@ const GroupCard = ({ onPress, groupName, participants, id, timestamp }) => {
             Last edited
           </Text>
           <Text style={{ color: appColor.white, fontSize: 16 }}>
-            {new Date(timestamp).toLocaleString().split(" ")[1] +
+            {new Date(timestamp).toDateString().split(" ")[1] +
               " " +
-              new Date(timestamp).toLocaleString().split(" ")[2]}
+              new Date(timestamp).toDateString().split(" ")[2]}
           </Text>
         </View>
       </LinearGradient>
